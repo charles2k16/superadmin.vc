@@ -1,9 +1,11 @@
+import { faBuilding, faChartBar, faUsers } from '@fortawesome/free-solid-svg-icons'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'spa',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -47,6 +49,17 @@ export default {
   ],
 
   chakra: {
+    icons: {
+      // Here we state that we use `fa`
+      // icons library for Chakra's
+      // internal icon parser
+      iconPack: 'fa',
+      iconSet: {
+        faBuilding,
+        faChartBar,
+        faUsers
+      }
+    },
     config: {
       autoImport: true
     }
@@ -58,4 +71,5 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
+
 }
