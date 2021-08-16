@@ -1,0 +1,22 @@
+query COUNTS {
+  company_aggregate {
+    aggregate {
+      count
+    }
+  }
+  user_aggregate {
+    aggregate {
+      count
+    }
+  }
+  post_aggregate {
+    aggregate {
+      count
+    }
+  }
+  post_comment_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
