@@ -1,4 +1,5 @@
 import { faBuilding, faChartBar, faUsers } from '@fortawesome/free-solid-svg-icons'
+import webpack from 'webpack'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -25,11 +26,13 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // new webpack.IgnorePlugin({
+    //   resourceRegExp: /\@highcharts\/map\-collection/
+    // })
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -46,6 +49,9 @@ export default {
     '@nuxtjs/emotion',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/apollo',
+    'nuxt-highcharts'
   ],
 
   chakra: {
@@ -65,11 +71,38 @@ export default {
     }
   },
 
+  server: {
+    port: 4000 // default: 3000
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
+  build: {},
+
+  axios: {
+    baseURL: 'https://api-dev.vibrantcreator.com/v1/api'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'admin/login', method: 'post', propertyName: 'token' },
+          user: { url: 'admin/me', method: 'get', propertyName: 'result' },
+          logout: false
+        }
+      }
+    }
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://vibrant-creator-graphql-core.herokuapp.com/v1/graphql',
+      } 
+    }
   }
 
 }

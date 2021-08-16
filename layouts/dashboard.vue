@@ -3,7 +3,14 @@
     <CThemeProvider>
       <CColorModeProvider>
         <CBox font-family="body" as="main">
-          <c-box position="sticky" top="0px" h="50px" w="100vw" bg="gray.900" padding="10px 20px">
+          <c-box
+            position="sticky"
+            top="0px"
+            h="50px"
+            w="100vw"
+            bg="gray.900"
+            padding="10px 20px"
+          >
             <c-box w="xs">
               <c-flex>
                 <c-image src="/logo-white.3992836f.png" alt="Logo" size="mb" />
@@ -13,31 +20,43 @@
               </c-flex>
             </c-box>
           </c-box>
-          <c-grid h="100vh" w="100vw" template-columns="200px 1fr">
+          <c-grid h="calc(100vh - 50px)" w="100vw" template-columns="200px 1fr">
             <c-grid-item bg="gray.500">
-                 <c-list color="white" spacing="3">
+              <c-list color="white" spacing="3">
+                <nuxt-link to="/dashboard">
                   <c-list-item c-link padding="20px 30px">
                     <c-list-icon icon="chart-bar" />
                     Statistics
                   </c-list-item>
-                </c-list>
-                <c-list color="white" spacing="3">
+                </nuxt-link>
+                <nuxt-link to="/dashboard/business">
                   <c-list-item c-link padding="20px 30px">
                     <c-list-icon icon="building" />
                     Businesses
                   </c-list-item>
-                </c-list>
-                  <c-list color="white" spacing="3">
-                  <c-list-item c-link padding="20px 30px">
+                </nuxt-link>
+                <nuxt-link to="/dashboard/user">
+                  <c-list-item
+                    as="nuxt-link"
+                    to="/dashboard/users"
+                    c-link
+                    padding="20px 30px"
+                  >
                     <c-list-icon icon="users" />
                     Users
                   </c-list-item>
-                </c-list>
-              
+                </nuxt-link>
+              </c-list>
             </c-grid-item>
             <c-grid-item boxSixing="border-box" bg="gray.50" padding="20px">
-              <c-box boxSixing="border-box" bg="white" h="100%" w="100%" padding="20px">
-              <Nuxt />
+              <c-box
+                boxSixing="border-box"
+                bg="white"
+                h="max-content"
+                w="100%"
+                padding="20px"
+              >
+                <Nuxt />
               </c-box>
             </c-grid-item>
           </c-grid>

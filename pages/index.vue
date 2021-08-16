@@ -14,7 +14,7 @@
             <c-image src="/logo-white.3992836f.png" alt="Logo" size="mb" />
           </c-box>
           <c-text fontWeight="900" letterSpacing="-3px" color="white">
-          SUPERADMIN
+            SUPERADMIN
           </c-text>
         </c-heading>
         <c-box
@@ -30,28 +30,34 @@
               <c-input-left-element
                 ><c-icon name="email" color="gray.300"
               /></c-input-left-element>
-              <c-input type="email" placeholder="Email Address" />
+              <c-input
+                type="email"
+                placeholder="Email Address"
+                v-model="email"
+              />
             </c-input-group>
 
             <c-input-group>
               <c-input-left-element color="gray.300" fontSize="1.2em"
                 ><c-icon name="check" color="gray.300"
               /></c-input-left-element>
-              <c-input placeholder="Enter Password" />
+              <c-input
+                placeholder="Enter Password"
+                :type="showPassword ? 'text' : 'password'"
+                v-model="password"
+              />
               <c-input-right-element width="5rem" marginRight="10px">
                 <c-button
                   h="1.75rem"
                   size="sm"
-                  @click="form.showPassword = !form.showPassword"
+                  @click="showPassword = !showPassword"
                 >
-                  {{ form.showPassword ? "Hide" : "Show" }}
+                  {{ showPassword ? "Hide" : "Show" }}
                 </c-button>
               </c-input-right-element>
             </c-input-group>
 
-            <c-button variant-color="green" @click="showToast">
-              Login
-            </c-button>
+            <c-button :isLoading="loggingIn" variant-color="green" @click="login"> Login </c-button>
           </c-stack>
         </c-box>
       </c-flex>
@@ -68,17 +74,38 @@ export default {
   inject: ['$chakraColorMode', '$toggleColorMode'],
   data () {
     return {
-      form : {
+        email : '',
         password: '',
-        showPassword: false
-      },
-      showModal: false
+        showPassword: false,
+        loggingIn : false
     }
-    
   },
   computed: {
   },
   methods: {
+    async login(){
+      this.loggingIn = true;
+      try {
+       const loginData = await this.$auth.loginWith('local', {
+          data: {
+          email: this.email,
+          password: this.password
+          }
+        })
+        console.log(loginData.data.token);
+        this.$apolloHelpers.onLogin(loginData.data.token);
+        this.$router.push('/dashboard')
+      } catch (e) {
+        const {error, message} = e.response.data;
+        this.loggingIn = false;
+        this.$toast({
+          title: error,
+          description: message,
+          status: 'error',
+          duration: 5000
+        })
+      }
+    }
   }
 }
 </script>
