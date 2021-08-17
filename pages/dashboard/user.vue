@@ -1,124 +1,66 @@
 <template>
   <div class="container">
     <c-heading marginBottom="20px">Users</c-heading>
-
-    <c-stat marginBottom="20px">
-      <c-stat-label>Total Registered Users</c-stat-label>
-      <c-stat-number>380,610</c-stat-number>
-      <c-stat-helper-text>
-        <c-stat-arrow type="increase" />
-        30.60%
-      </c-stat-helper-text>
-    </c-stat>
-
+<c-stat-group>
+      <c-stat>
+        <c-stat-label>Total Register Users</c-stat-label>
+        <c-stat-number>{{ counts.user_aggregate ? counts.user_aggregate.aggregate.count : 0}}</c-stat-number>
+        <c-stat-helper-text>
+          <c-stat-arrow type="increase" />
+          0.0%
+        </c-stat-helper-text>
+      </c-stat>
+</c-stat-group>
     <div>
         
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
-            <c-grid template-columns="repeat(6, 1fr)">
+          <template v-for="user in users">
+            <c-grid template-columns="100px repeat(4, 1fr)" :key="user.id">
+                <c-box>
+                <c-avatar :name="user.firstname ? `${user.firstname} ${user.lastname}` : null" />
+                </c-box>
                 <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Company name
+                        Name
                     </c-text>
                     <c-text fontSize="13px">
-                        B&D
+                        {{user.firstname ? `${user.firstname} ${user.lastname}` : `No name`}}
                     </c-text>
                 </c-box>
                 <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Stage
+                        Email
                     </c-text>
                     <c-text fontSize="13px">
-                        Ideation stage
-                    </c-text>
-                </c-box>
-                <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Objective
-                    </c-text>
-                    <c-text fontSize="13px">
-                        Conceptualise my business idea
+                        {{user.email}}
                     </c-text>
                 </c-box>
                   <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Location
+                        Companies
                     </c-text>
                     <c-text fontSize="13px">
-                        Petran, Albania
+                      {{user.teams.length ? '' : 'Pending Invites'}}
+                        <ul>
+                          <li v-for="team in user.teams" :key="team.id">
+                            {{team.company.name}}
+                          </li>
+                        </ul>
                     </c-text>
                 </c-box>
                  <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Investment Ready
+                        Registeration Date
                     </c-text>
                     <c-text fontSize="13px">
-                        4 Months
+                        {{$moment(user.createdAt).calendar()}}
                     </c-text>
-                </c-box>
-                 <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Size
-                    </c-text>
-                    <c-text fontSize="13px">
-                        3-6
-                    </c-text>
-                </c-box>
-               
+                </c-box>       
             </c-grid>
-            <c-divider>
+            <c-divider :key="user.id">
             </c-divider>
-            <c-grid template-columns="repeat(6, 1fr)">
-                <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Company name
-                    </c-text>
-                    <c-text fontSize="13px">
-                        B&D
-                    </c-text>
-                </c-box>
-                <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Stage
-                    </c-text>
-                    <c-text fontSize="13px">
-                        Ideation stage
-                    </c-text>
-                </c-box>
-                <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Objective
-                    </c-text>
-                    <c-text fontSize="13px">
-                        Conceptualise my business idea
-                    </c-text>
-                </c-box>
-                  <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Location
-                    </c-text>
-                    <c-text fontSize="13px">
-                        Petran, Albania
-                    </c-text>
-                </c-box>
-                 <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Investment Ready
-                    </c-text>
-                    <c-text fontSize="13px">
-                        4 Months
-                    </c-text>
-                </c-box>
-                 <c-box>
-                    <c-text fontSize="11px" color="gray.500">
-                        Size
-                    </c-text>
-                    <c-text fontSize="13px">
-                        3-6
-                    </c-text>
-                </c-box>
-               
-            </c-grid>
+          </template>
         </c-box>
       </c-stack>
     </div>
@@ -127,16 +69,42 @@
 
 <script lang="js">
 
+import countQuery from "~/graphql/queries/counts.gql";
+import userQuery from "~/graphql/queries/users.gql";
+
 export default {
   name: 'App',
   components: {},
   layout: 'dashboard',
   data () {
-    return {}
+    return {
+      counts : {},
+      users : []
+    }
+  },
+  fetch(){
+    this.getCounts();
+    this.getUsers();
   },
   computed: {
   },
   methods: {
+    getCounts(){
+      this.$apollo.query({query : countQuery})
+        .then(({ data }) => {
+          // do what you want with data
+          console.log(data);
+          this.counts = data
+        })
+    },
+     getUsers(){
+      this.$apollo.query({query : userQuery})
+        .then(({ data }) => {
+          // do what you want with data
+          console.log(data);
+          this.users = data.user
+        })
+    }
   }
 }
 </script>

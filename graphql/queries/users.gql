@@ -1,0 +1,16 @@
+query Users {
+  user(order_by: {firstname: asc_nulls_last, createdAt : desc}) {
+    firstname
+    email
+    lastname
+    profilePhoto
+    createdAt
+    teams {
+      id
+      company {
+        id
+        name
+      }
+    }
+  }
+}

@@ -28,6 +28,7 @@
     "nuxt-highcharts": "^1.0.8"
   },
   "devDependencies": {
+    "@nuxtjs/moment": "^1.6.1",
     "webpack": "^4.46.0"
   }
 }

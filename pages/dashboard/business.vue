@@ -76,7 +76,7 @@
 <script lang="js">
 
 import countQuery from "~/graphql/queries/counts.gql";
-import businessQuery from "~/graphql/queries/listBusiness.gql";
+import businessQuery from "~/graphql/queries/businesses.gql";
 
 
 export default {
