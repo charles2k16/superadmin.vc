@@ -1,0 +1,22 @@
+query monthly_growths {
+  monthly_growth {
+    month
+    total
+    growth
+  }
+  monthly_growth_company {
+    total
+    month
+    growth
+  }
+  monthly_growth_post {
+    growth
+    month
+    total
+  }
+  monthly_growth_comment {
+    growth
+    month
+    total
+  }
+}

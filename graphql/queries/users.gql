@@ -1,5 +1,6 @@
 query Users {
   user(order_by: {firstname: asc_nulls_last, createdAt : desc}) {
+    id
     firstname
     email
     lastname

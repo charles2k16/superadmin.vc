@@ -7,32 +7,32 @@
         <c-stat-label>Total Registered Businesses</c-stat-label>
         <c-stat-number>{{counts.company_aggregate ? counts.company_aggregate.aggregate.count : 0}}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow type="increase" />
-          0.0%
+          <c-stat-arrow :type="graphqData.monthly_growth_company ? graphqData.monthly_growth_company[graphqData.monthly_growth_company.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
+          {{graphqData.monthly_growth_company ? graphqData.monthly_growth_company[graphqData.monthly_growth_company.lastIndex].growth + 0 : 0 }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Register Users</c-stat-label>
         <c-stat-number>{{ counts.user_aggregate ? counts.user_aggregate.aggregate.count : 0}}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow type="increase" />
-          0.0%
+          <c-stat-arrow :type="graphqData.monthly_growth ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
+            {{graphqData.monthly_growth ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex].growth + 0 : 0 }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Posts on Insights</c-stat-label>
         <c-stat-number>{{ counts.post_aggregate ? counts.post_aggregate.aggregate.count : 0}}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow type="increase" />
-          0.0%
+          <c-stat-arrow :type="graphqData.monthly_growth_post ? graphqData.monthly_growth_post[graphqData.monthly_growth_post.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
+            {{graphqData.monthly_growth_post ? graphqData.monthly_growth_post[graphqData.monthly_growth_post.lastIndex].growth + 0 : 0 }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Comments on Insights</c-stat-label>
         <c-stat-number>{{ counts.post_comment_aggregate ? counts.post_comment_aggregate.aggregate.count : 0}}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow type="increase" />
-          0.0%
+            <c-stat-arrow :type="graphqData.monthly_growth_comment ? graphqData.monthly_growth_comment[graphqData.monthly_growth_comment.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
+            {{graphqData.monthly_growth_comment ? graphqData.monthly_growth_comment[graphqData.monthly_growth_comment.lastIndex].growth + 0 : 0 }}%
         </c-stat-helper-text>
       </c-stat>
     </c-stat-group>
@@ -43,6 +43,7 @@
 <script lang="js">
 
 import countQuery from "~/graphql/queries/counts.gql";
+import graphQuery from "~/graphql/queries/mom.gql";
 
 export default {
   name: 'App',
@@ -67,6 +68,8 @@ export default {
           },
 
           xAxis: {
+              type: 'datetime',
+              tickInterval: 1000 * 3600 * 24 *30,
               accessibility: {
                   rangeDescription: 'Jan - Dec'
               }
@@ -116,11 +119,13 @@ export default {
               }]
           }
       },
-      counts : {}
+      counts : {},
+      graphqData :{}
   }
   },
   fetch(){
     this.getCounts();
+    this.getGraphData();
   },
 
   computed: {
@@ -130,9 +135,38 @@ export default {
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
           // do what you want with data
-          console.log(data);
           this.counts = data
         })
+    },
+    async getGraphData(){
+     this.$apollo.query({query : graphQuery}).then(({data})=> {
+       console.log(data);
+       this.graphqData = data;
+       this.chartOptions.series[0].data = this.graphqData.monthly_growth_company.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+       this.chartOptions.series[1].data = this.graphqData.monthly_growth.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+       this.chartOptions.series[2].data = this.graphqData.monthly_growth_post.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+       this.chartOptions.series[3].data = this.graphqData.monthly_growth_comment.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+     })
     }
   }
 }

@@ -1,66 +1,72 @@
 <template>
   <div class="container">
-    <c-heading marginBottom="20px">Users</c-heading>
-<c-stat-group>
-      <c-stat>
-        <c-stat-label>Total Register Users</c-stat-label>
-        <c-stat-number>{{ counts.user_aggregate ? counts.user_aggregate.aggregate.count : 0}}</c-stat-number>
+    <c-heading marginBottom="20px">Business</c-heading>
+     <c-stat marginBottom="20px">
+        <c-stat-label>Total Registered Businesses</c-stat-label>
+        <c-stat-number>{{counts.company_aggregate ? counts.company_aggregate.aggregate.count : 0}}</c-stat-number>
         <c-stat-helper-text>
           <c-stat-arrow type="increase" />
           0.0%
         </c-stat-helper-text>
       </c-stat>
-</c-stat-group>
     <div>
-        
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
-          <template v-for="user in users">
-            <c-grid template-columns="100px repeat(4, 1fr)" :key="user.id">
+            <template v-for="business in businesses" >
+                <c-grid template-columns="repeat(6, 1fr)" :key="business.id">
                 <c-box>
-                <c-avatar :name="user.firstname ? `${user.firstname} ${user.lastname}` : null" />
+                    <c-text fontSize="11px" color="gray.500">
+                        Company name
+                    </c-text>
+                    <c-text fontSize="13px">
+                       {{business.name}}
+                    </c-text>
                 </c-box>
                 <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Name
+                        Stage
                     </c-text>
                     <c-text fontSize="13px">
-                        {{user.firstname ? `${user.firstname} ${user.lastname}` : `No name`}}
+                       {{business.business_stage.name}}
                     </c-text>
                 </c-box>
                 <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Email
+                        Objective
                     </c-text>
                     <c-text fontSize="13px">
-                        {{user.email}}
+                       {{business.business_objective.description}}
                     </c-text>
                 </c-box>
                   <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Companies
+                        Location
                     </c-text>
                     <c-text fontSize="13px">
-                      {{user.teams.length ? '' : 'Pending Invites'}}
-                        <ul>
-                          <li v-for="team in user.teams" :key="team.id">
-                            {{team.company.name}}
-                          </li>
-                        </ul>
+                       {{business.city}}, {{business.country}}
                     </c-text>
                 </c-box>
                  <c-box>
                     <c-text fontSize="11px" color="gray.500">
-                        Registeration Date
+                        Investment Ready
                     </c-text>
                     <c-text fontSize="13px">
-                        {{$moment(user.createdAt).calendar()}}
+                        {{business.investmentEtaValue}} {{business.investmentEtaMetric}}
                     </c-text>
-                </c-box>       
+                </c-box>
+                 <c-box>
+                    <c-text fontSize="11px" color="gray.500">
+                        Size
+                    </c-text>
+                    <c-text fontSize="13px">
+                        {{business.size}}
+                    </c-text>
+                </c-box>
+               
             </c-grid>
-            <c-divider :key="user.id">
+            <c-divider :key="business.id">
             </c-divider>
-          </template>
+            </template>
         </c-box>
       </c-stack>
     </div>
@@ -70,21 +76,22 @@
 <script lang="js">
 
 import countQuery from "~/graphql/queries/counts.gql";
-import userQuery from "~/graphql/queries/users.gql";
+import businessQuery from "~/graphql/queries/businesses.gql";
+
 
 export default {
   name: 'App',
   components: {},
   layout: 'dashboard',
   data () {
-    return {
-      counts : {},
-      users : []
+      return {
+         counts : {} ,
+         businesses : []
     }
   },
   fetch(){
     this.getCounts();
-    this.getUsers();
+    this.getBusiness();
   },
   computed: {
   },
@@ -97,12 +104,12 @@ export default {
           this.counts = data
         })
     },
-     getUsers(){
-      this.$apollo.query({query : userQuery})
+     getBusiness(){
+      this.$apollo.query({query : businessQuery})
         .then(({ data }) => {
           // do what you want with data
           console.log(data);
-          this.users = data.user
+          this.businesses = data.company
         })
     }
   }

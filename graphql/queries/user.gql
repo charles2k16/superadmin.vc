@@ -1,0 +1,51 @@
+query user($id: Int!) {
+  user_by_pk(id: $id) {
+    email
+    firstname
+    lastname
+    id
+    teams {
+      company {
+        name
+        id
+      }
+    }
+    posts_aggregate {
+      aggregate {
+        count
+      }
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+    posts {
+      content
+      createdAt
+    }
+    post_comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+    post_comments {
+      content
+    }
+    post_saves_aggregate {
+      aggregate {
+        count
+      }
+    }
+    post_saves {
+      post {
+        content
+        user {
+          firstname
+          lastname
+          profilePhoto
+        }
+      }
+    }
+  }
+}
