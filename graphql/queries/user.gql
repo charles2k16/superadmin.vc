@@ -23,6 +23,11 @@ query user($id: Int!) {
     posts {
       content
       createdAt
+       user {
+          firstname
+          lastname
+          profilePhoto
+        }
     }
     post_comments_aggregate {
       aggregate {
@@ -31,6 +36,11 @@ query user($id: Int!) {
     }
     post_comments {
       content
+        user {
+          firstname
+          lastname
+          profilePhoto
+        }
     }
     post_saves_aggregate {
       aggregate {
@@ -38,7 +48,9 @@ query user($id: Int!) {
       }
     }
     post_saves {
+      id
       post {
+        id
         content
         user {
           firstname

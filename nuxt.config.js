@@ -93,7 +93,8 @@ export default {
           login: { url: 'admin/login', method: 'post', propertyName: 'token' },
           user: { url: 'admin/me', method: 'get', propertyName: 'result' },
           logout: false
-        }
+        },
+        autoLogout : true
       }
     }
   },
