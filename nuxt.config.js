@@ -1,5 +1,4 @@
-import { faBuilding, faChartBar, faUsers } from '@fortawesome/free-solid-svg-icons'
-import webpack from 'webpack'
+import { faBuilding, faChartBar, faUsers , faSignOutAlt, faComments, faUsersCog } from '@fortawesome/free-solid-svg-icons'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -64,7 +63,10 @@ export default {
       iconSet: {
         faBuilding,
         faChartBar,
-        faUsers
+        faUsers,
+        faSignOutAlt,
+        faComments,
+        faUsersCog
       }
     },
     config: {

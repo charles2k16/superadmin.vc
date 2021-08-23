@@ -10,6 +10,7 @@
             w="100vw"
             bg="gray.900"
             padding="10px 20px"
+            zIndex="1000"
           >
             <c-box w="xs">
               <c-flex>
@@ -22,30 +23,47 @@
           </c-box>
           <c-grid h="calc(100vh - 50px)" w="100vw" template-columns="200px 1fr">
             <c-grid-item bg="gray.500">
-              <c-list color="white" spacing="3">
+              <c-list color="white" position="fixed" spacing="3">
                 <nuxt-link to="/dashboard">
-                  <c-list-item c-link padding="20px 30px">
+                  <c-list-item padding="20px 30px">
                     <c-list-icon icon="chart-bar" />
                     Statistics
                   </c-list-item>
                 </nuxt-link>
                 <nuxt-link to="/dashboard/business">
-                  <c-list-item c-link padding="20px 30px">
+                  <c-list-item padding="20px 30px">
                     <c-list-icon icon="building" />
                     Businesses
                   </c-list-item>
                 </nuxt-link>
                 <nuxt-link to="/dashboard/user">
-                  <c-list-item
-                    as="nuxt-link"
-                    to="/dashboard/users"
-                    c-link
-                    padding="20px 30px"
-                  >
+                  <c-list-item padding="20px 30px">
                     <c-list-icon icon="users" />
                     Users
                   </c-list-item>
                 </nuxt-link>
+                <nuxt-link to="/dashboard/insights">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="comments" />
+                    Insights
+                  </c-list-item>
+                </nuxt-link>
+                <nuxt-link to="/dashboard/user">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="users-cog" />
+                    Admin
+                  </c-list-item>
+                </nuxt-link>
+                <div @click="logout()">
+                   <c-list-item
+                  cursor="pointer"
+                  padding="20px 30px"
+                >
+                  <c-list-icon icon="sign-out-alt" />
+                  Logout
+                </c-list-item>
+                </div>
+               
               </c-list>
             </c-grid-item>
             <c-grid-item boxSixing="border-box" bg="gray.50" padding="20px">
@@ -85,6 +103,13 @@ export default {
     CBox,
     CGrid,
     CGridItem,
+  },
+  methods: {
+    async logout() {
+      console.log("logout");
+      await this.$auth.logout();
+      this.$router.push("../");
+    },
   },
 };
 </script>
