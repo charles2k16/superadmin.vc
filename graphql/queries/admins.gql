@@ -1,0 +1,11 @@
+query ADMIN {
+  admin {
+    createdAt
+    email
+    firstName
+    id
+    lastName
+    role
+    updatedAt
+  }
+}
