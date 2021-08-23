@@ -92,7 +92,6 @@ export default {
           password: this.password
           }
         })
-        console.log(loginData.data.token);
         this.$apolloHelpers.onLogin(loginData.data.token);
         this.$router.push('/dashboard')
       } catch (e) {
