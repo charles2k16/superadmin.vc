@@ -36,25 +36,25 @@
         </c-stat-helper-text>
       </c-stat>
     </c-stat-group>
-    <highchart :options="chartOptions" />
+    <highchart :options="dailychartOptions" />
+    <highchart :options="monthlychartOptions" />
   </div>
 </template>
 
 <script lang="js">
 
 import countQuery from "~/graphql/queries/counts.gql";
-import graphQuery from "~/graphql/queries/mom.gql";
+import graphQuery from "~/graphql/queries/stats.gql";
 
 export default {
   name: 'App',
   components: {},
   layout: 'dashboard',
   data () {
-        return {
-      chartOptions: {
-
+    return {
+      monthlychartOptions: {
           title: {
-              text: 'Growth'
+              text: 'Monthly Growth'
           },
 
           subtitle: {
@@ -92,16 +92,83 @@ export default {
 
           series: [{
               name: 'Business',
-              data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
               name: 'Users',
-              data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
               name: 'Posts',
-              data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
               name: 'Comments',
-              data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }],
+
+          responsive: {
+              rules: [{
+                  condition: {
+                      maxWidth: 500
+                  },
+                  chartOptions: {
+                      legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                      }
+                  }
+              }]
+          }
+      },
+        dailychartOptions: {
+          title: {
+              text: 'Daily Growth'
+          },
+
+          subtitle: {
+              text: 'Business, User, Post and Comment Growth'
+          },
+
+          yAxis: {
+              title: {
+                  text: 'Units'
+              }
+          },
+
+          xAxis: {
+              type: 'datetime',
+              tickInterval: 1000 * 3600 * 24,
+              accessibility: {
+                  rangeDescription: 'Jan - Dec'
+              }
+          },
+
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle'
+          },
+
+          plotOptions: {
+              series: {
+                  label: {
+                      connectorAllowed: false
+                  },
+                  pointStart: 2014
+              }
+          },
+
+          series: [{
+              name: 'Business',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Users',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Posts',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Comments',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
           }],
 
           responsive: {
@@ -142,28 +209,54 @@ export default {
      this.$apollo.query({query : graphQuery}).then(({data})=> {
        console.log(data);
        this.graphqData = data;
-       this.chartOptions.series[0].data = this.graphqData.monthly_growth_company.map((user_month)=>{
+       this.monthlychartOptions.series[0].data = this.graphqData.monthly_growth_company.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
          }
        })
-       this.chartOptions.series[1].data = this.graphqData.monthly_growth.map((user_month)=>{
+       this.monthlychartOptions.series[1].data = this.graphqData.monthly_growth.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
          }
        })
-       this.chartOptions.series[2].data = this.graphqData.monthly_growth_post.map((user_month)=>{
+       this.monthlychartOptions.series[2].data = this.graphqData.monthly_growth_post.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
          }
        })
-       this.chartOptions.series[3].data = this.graphqData.monthly_growth_comment.map((user_month)=>{
+       this.monthlychartOptions.series[3].data = this.graphqData.monthly_growth_comment.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
+         }
+       })
+       
+
+         this.dailychartOptions.series[0].data = this.graphqData.daily_growth_company.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+       this.dailychartOptions.series[1].data = this.graphqData.daily_growth.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+       this.dailychartOptions.series[2].data = this.graphqData.daily_growth_post.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+       this.dailychartOptions.series[3].data = this.graphqData.daily_growth_comment.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
          }
        })
      })

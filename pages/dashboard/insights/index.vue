@@ -7,124 +7,65 @@
         <c-stat-number>{{
           counts.post_aggregate ? counts.post_aggregate.aggregate.count : 0
         }}</c-stat-number>
-        <c-stat-helper-text>
-          <c-stat-arrow type="increase" />
-          0.0%
-        </c-stat-helper-text>
+        
+      </c-stat>
+       <c-stat>
+        <c-stat-label>Total Comments in Insights</c-stat-label>
+        <c-stat-number>{{
+          counts.post_comment_aggregate ? counts.post_comment_aggregate.aggregate.count : 0
+        }}</c-stat-number>
+          
+      </c-stat>
+        <c-stat>
+        <c-stat-label>Total Tags in Insights</c-stat-label>
+        <c-stat-number>{{
+          counts.post_comment_aggregate ? counts.post_comment_aggregate.aggregate.count : 0
+        }}</c-stat-number>
+          
       </c-stat>
     </c-stat-group>
  <c-tabs>
     <c-tab-list>
       <c-tab>Posts</c-tab>
       <c-tab>Comments</c-tab>
+      <c-tab>Tags</c-tab>
     </c-tab-list>
     <c-tab-panels>
       <c-tab-panel>
          <c-box :p="5" border-width="1px">
-      <template v-for="user in users">
-        <nuxt-link :to="'./user/' + user.id" :key="user.id">
-          <c-grid template-columns="100px repeat(4, 1fr)">
-            <c-box>
-              <c-avatar
-                :name="
-                  user.firstname ? `${user.firstname} ${user.lastname}` : null
-                "
-              />
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Name </c-text>
-              <c-text fontSize="13px">
-                {{
-                  user.firstname
-                    ? `${user.firstname} ${user.lastname}`
-                    : `No name`
-                }}
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Email </c-text>
-              <c-text fontSize="13px">
-                {{ user.email }}
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Companies </c-text>
-              <c-text fontSize="13px">
-                {{ user.teams.length ? "" : "Pending Invites" }}
-                <ul>
-                  <li v-for="team in user.teams" :key="team.id">
-                    {{ team.company.name }}
-                  </li>
-                </ul>
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500">
-                Registeration Date
-              </c-text>
-              <c-text fontSize="13px">
-                {{ $moment(user.createdAt).calendar() }}
-              </c-text>
-            </c-box>
-          </c-grid>
-        </nuxt-link>
-
-        <c-divider :key="user.id"> </c-divider>
-      </template>
+           <c-stack v-for="(post, index) in posts" :key="index">
+                    <c-flex>
+                    <c-avatar size="xs" v-bind:name="post.user ? `${post.user.firstname} ${post.user.lastname}` : null" />
+                    <c-text>
+                      {{post.user.firstname}} 
+                      {{post.user.lastname}}   
+                    </c-text>     
+                    </c-flex>
+                    <c-text fontSize="12px" p="0 2px" v-html="post.content">
+                    </c-text>   
+                    <c-divider></c-divider>
+            </c-stack> 
     </c-box>
       </c-tab-panel>
       <c-tab-panel>
          <c-box :p="5" border-width="1px">
-      <template v-for="user in users">
-        <nuxt-link :to="'./user/' + user.id" :key="user.id">
-          <c-grid template-columns="100px repeat(4, 1fr)">
-            <c-box>
-              <c-avatar
-                :name="
-                  user.firstname ? `${user.firstname} ${user.lastname}` : null
-                "
-              />
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Name </c-text>
-              <c-text fontSize="13px">
-                {{
-                  user.firstname
-                    ? `${user.firstname} ${user.lastname}`
-                    : `No name`
-                }}
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Email </c-text>
-              <c-text fontSize="13px">
-                {{ user.email }}
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500"> Companies </c-text>
-              <c-text fontSize="13px">
-                {{ user.teams.length ? "" : "Pending Invites" }}
-                <ul>
-                  <li v-for="team in user.teams" :key="team.id">
-                    {{ team.company.name }}
-                  </li>
-                </ul>
-              </c-text>
-            </c-box>
-            <c-box>
-              <c-text fontSize="11px" color="gray.500">
-                Registeration Date
-              </c-text>
-              <c-text fontSize="13px">
-                {{ $moment(user.createdAt).calendar() }}
-              </c-text>
-            </c-box>
-          </c-grid>
-        </nuxt-link>
-
-        <c-divider :key="user.id"> </c-divider>
-      </template>
+      <c-stack v-for="(comment, index) in comments" :key="index">
+                    <c-flex>
+                    <c-avatar size="xs" v-bind:name="comment.user ? `${comment.user.firstname} ${comment.user.lastname}` : null" />
+                    <c-text>
+                      {{comment.user.firstname}} 
+                      {{comment.user.lastname}}   
+                    </c-text>     
+                    </c-flex>
+                    <c-text fontSize="12px" p="0 2px" v-html="comment.content">
+                    </c-text>   
+                    <c-divider></c-divider>
+            </c-stack> 
+    </c-box>
+      </c-tab-panel>
+      <c-tab-panel>
+         <c-box :p="5" border-width="1px">
+     <c-badge v-for="(tag, index) in tags" :key="index"  mx="2" variant="subtle" variant-color="blue">{{tag.name}}</c-badge>
     </c-box>
       </c-tab-panel>
     </c-tab-panels>
@@ -135,7 +76,9 @@
 <script lang="js">
 
 import countQuery from "~/graphql/queries/counts.gql";
-import userQuery from "~/graphql/queries/users.gql";
+import postsQuery from "~/graphql/queries/posts.gql";
+import commentsQuery from "~/graphql/queries/comments.gql";
+import tagsQuery from "~/graphql/queries/tags.gql";
 
 export default {
   name: 'App',
@@ -144,12 +87,16 @@ export default {
   data () {
     return {
       counts : {},
-      users : []
+      posts : [],
+      comments : [],
+      tags : []
     }
   },
   fetch(){
     this.getCounts();
-    this.getUsers();
+    this.getPosts();
+    this.getComments();
+    this.getTags();
   },
   computed: {
   },
@@ -157,19 +104,27 @@ export default {
     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
-          // do what you want with data
-          console.log(data);
           this.counts = data
         })
     },
-     getUsers(){
-      this.$apollo.query({query : userQuery})
+     getPosts(){
+      this.$apollo.query({query : postsQuery})
         .then(({ data }) => {
-          // do what you want with data
-          console.log(data);
-          this.users = data.user
+          this.posts = data.post
         })
-    }
+    },
+    getComments(){
+      this.$apollo.query({query : commentsQuery})
+        .then(({ data }) => {
+          this.comments = data.post_comment
+        })
+    },
+    getTags(){
+      this.$apollo.query({query : tagsQuery})
+        .then(({ data }) => {
+          this.tags = data.tag
+        })
+    },
   }
 }
 </script>

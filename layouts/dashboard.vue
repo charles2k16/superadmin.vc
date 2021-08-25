@@ -48,6 +48,12 @@
                     Insights
                   </c-list-item>
                 </nuxt-link>
+                 <nuxt-link to="/dashboard/admin">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="users-cog" />
+                    CMS
+                  </c-list-item>
+                </nuxt-link>
                 <nuxt-link to="/dashboard/admin">
                   <c-list-item padding="20px 30px">
                     <c-list-icon icon="users-cog" />

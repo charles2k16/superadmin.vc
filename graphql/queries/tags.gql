@@ -1,0 +1,12 @@
+query tags {
+  tag(order_by: {createdAt: desc}) {
+    name
+    userId
+    createdAt
+    post_tags_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}

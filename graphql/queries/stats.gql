@@ -19,4 +19,24 @@ query monthly_growths {
     month
     total
   }
+  daily_growth {
+    day
+    total
+    growth
+  }
+  daily_growth_company {
+    total
+    day
+    growth
+  }
+  daily_growth_post {
+    growth
+    day
+    total
+  }
+  daily_growth_comment {
+    growth
+    day
+    total
+  }
 }

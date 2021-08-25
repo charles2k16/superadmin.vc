@@ -1,0 +1,11 @@
+query comments {
+  post_comment(order_by: {createdAt: desc}) {
+    content
+    createdAt
+    id
+    user {
+      firstname
+      lastname
+    }
+  }
+}

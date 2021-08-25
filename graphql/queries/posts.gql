@@ -1,0 +1,13 @@
+query posts {
+  post(order_by: {createdAt: desc}) {
+    id
+    createdAt
+    content
+    companyId
+    attachments
+    user {
+      firstname
+      lastname
+    }
+  }
+}
