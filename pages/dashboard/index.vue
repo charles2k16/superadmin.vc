@@ -37,6 +37,7 @@
       </c-stat>
     </c-stat-group>
     <highchart :options="dailychartOptions" />
+    <highchart :options="weeklychartOptions" />
     <highchart :options="monthlychartOptions" />
   </div>
 </template>
@@ -119,7 +120,75 @@ export default {
               }]
           }
       },
-        dailychartOptions: {
+        weeklychartOptions: {
+          title: {
+              text: 'Weekly Growth'
+          },
+
+          subtitle: {
+              text: 'Business, User, Post and Comment Growth'
+          },
+
+          yAxis: {
+              title: {
+                  text: 'Units'
+              }
+          },
+
+          xAxis: {
+              type: 'linear',
+              tickInterval : 1,
+              max : 52,
+              accessibility: {
+                  rangeDescription: 'Weeks'
+              }
+          },
+
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle'
+          },
+
+          plotOptions: {
+              series: {
+                  label: {
+                      connectorAllowed: false
+                  },
+                  pointStart: 2014
+              }
+          },
+
+          series: [{
+              name: 'Business',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Users',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Posts',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Comments',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }],
+
+          responsive: {
+              rules: [{
+                  condition: {
+                      maxWidth: 500
+                  },
+                  chartOptions: {
+                      legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                      }
+                  }
+              }]
+          }
+      },
+       dailychartOptions: {
           title: {
               text: 'Daily Growth'
           },
@@ -134,7 +203,8 @@ export default {
               }
           },
 
-          xAxis: {
+         
+           xAxis: {
               type: 'datetime',
               tickInterval: 1000 * 3600 * 24,
               accessibility: {
@@ -256,6 +326,31 @@ export default {
        this.dailychartOptions.series[3].data = this.graphqData.daily_growth_comment.map((user_day)=>{
          return {
            x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+
+      this.weeklychartOptions.series[0].data = this.graphqData.weekly_growth_company.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
+         }
+       })
+       this.weeklychartOptions.series[1].data = this.graphqData.weekly_growth.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
+         }
+       })
+       this.weeklychartOptions.series[2].data = this.graphqData.weekly_growth_post.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
+         }
+       })
+       this.weeklychartOptions.series[3].data = this.graphqData.weekly_growth_comment.map((user_week)=>{
+         return {
+           x : user_week.week,
            y : user_day.total
          }
        })

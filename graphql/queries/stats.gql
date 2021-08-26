@@ -39,4 +39,25 @@ query monthly_growths {
     day
     total
   }
+  
+  weekly_growth {
+    week
+    total
+    growth
+  }
+  weekly_growth_company {
+    total
+    week
+    growth
+  }
+  weekly_growth_post {
+    growth
+    week
+    total
+  }
+  weekly_growth_comment {
+    growth
+    week
+    total
+  }
 }
