@@ -65,7 +65,7 @@
       </c-tab-panel>
       <c-tab-panel>
          <c-box :p="5" border-width="1px">
-     <c-badge v-for="(tag, index) in tags" :key="index"  mx="2" variant="subtle" variant-color="blue">{{tag.name}}</c-badge>
+     <c-badge v-for="(tag, index) in tags" :key="index"  mx="2" variant="subtle" variant-color="blue">{{tag.name}} - {{tag.post_tags_aggregate.aggregate.count}}</c-badge>
     </c-box>
       </c-tab-panel>
     </c-tab-panels>
