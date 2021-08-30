@@ -6,6 +6,8 @@ query Users {
     lastname
     profilePhoto
     createdAt
+    isBlocked
+    isDeleted
     teams {
       id
       company {

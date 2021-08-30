@@ -1,0 +1,6 @@
+mutation deleteComment($id: Int!) {
+  update_post_comment_by_pk(pk_columns: {id: $id}, _set: {isDeleted: true}) {
+    id
+    isDeleted
+  }
+}

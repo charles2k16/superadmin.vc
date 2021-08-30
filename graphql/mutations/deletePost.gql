@@ -1,0 +1,6 @@
+mutation deletePost($id: Int!) {
+  update_post_by_pk(pk_columns: {id: $id}, _set: {isDeleted: true}) {
+    id
+    isDeleted
+  }
+}

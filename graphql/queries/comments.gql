@@ -3,6 +3,7 @@ query comments {
     content
     createdAt
     id
+    isDeleted
     user {
       firstname
       lastname

@@ -5,6 +5,8 @@ query posts {
     content
     companyId
     attachments
+    isDeleted
+    isPromoted
     user {
       firstname
       lastname

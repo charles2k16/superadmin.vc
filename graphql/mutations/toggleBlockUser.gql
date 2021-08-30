@@ -1,0 +1,6 @@
+mutation toggleBlock($id: Int!, $isBlocked: Boolean!) {
+  update_user_by_pk(pk_columns: {id: $id}, _set: {isBlocked: $isBlocked}) {
+    isBlocked
+    id
+  }
+}

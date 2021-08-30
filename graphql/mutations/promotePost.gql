@@ -1,0 +1,6 @@
+mutation promotePost($id: Int!) {
+  update_post_by_pk(pk_columns: {id: $id}, _set: {isPromoted: true}) {
+    id
+    isPromoted
+  }
+}
