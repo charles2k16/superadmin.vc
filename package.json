@@ -25,10 +25,12 @@
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "nuxt": "^2.15.7",
-    "nuxt-highcharts": "^1.0.8"
+    "nuxt-highcharts": "^1.0.8",
+    "vue-quill-editor": "^3.0.6"
   },
   "devDependencies": {
     "@nuxtjs/moment": "^1.6.1",
+    "sass-loader": "^10",
     "webpack": "^4.46.0"
   }
 }

@@ -25,13 +25,17 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: [
+    'quill/dist/quill.core.css',
+    // for snow theme
+    'quill/dist/quill.snow.css',
+    // for bubble theme
+    'quill/dist/quill.bubble.css'
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // new webpack.IgnorePlugin({
-    //   resourceRegExp: /\@highcharts\/map\-collection/
-    // })
+    { src: '~plugins/nuxt-quill-plugin', ssr: false }
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -105,7 +109,10 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: 'https://vibrant-creator-graphql-core.herokuapp.com/v1/graphql',
-      } 
+        // query: {
+        //   fetchPolicy: 'no-cache',
+        // }
+      }
     }
   }
 

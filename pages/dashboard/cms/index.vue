@@ -15,83 +15,51 @@
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>Vision</b> </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openModal('Vision', data.vision)"
+                  >Edit</c-button
+                >
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                <h5>Questions</h5>
-                <p>What are your long term goals for the company?</p>
-                How would the world be a better place if you reached your long
-                term goals?<br />
-                What would the world be like if you solved the problem your
-                company is focused on?<br />
-
-                <h5>Tips</h5>
-                - Dream big<br />
-                - Make it sticky<br />
-                - Be inspiring<br />
-                - Reflect on your long term objectives<br />
-                - Check your competitors visions, how can you differentiate
-                yourself from them?<br />
-                - Make it a part of your day to day activities<br />
-
-                Your vision represents the ideal future of your business and
-                impact it can have on your customers. Unlike a belief statement
-                or a mission statement which focuses on the present, a vision
-                describes the long-term results you and your team are working
-                towards. A vision is a multipurpose tool that can Allow key
-                stakeholders to understand the meaning and purpose of your
-                company Create an emotional connection with your customers
-                Create excitement and engage existing employees Attract new
-                employees Serve as an internal communication tool that helps
-                align your team
+                <div v-html="data.vision.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>Belief</b> </c-box>
+                 <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openModal('Belief', data.belief)"
+                  >Edit</c-button
+                >
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.belief.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>Values</b> </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Values', data.values)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.values.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>Culture</b> </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Culture', data.culture)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </c-accordion-panel>
-            </c-accordion-item>
-            <c-accordion-item>
-              <c-accordion-header>
-                <c-box flex="1" text-align="left"> <b>Belief</b> </c-box>
-                <c-accordion-icon />
-              </c-accordion-header>
-              <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.culture.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -99,13 +67,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Sustainable Development Goals</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Sustainable Development Goals', data.sdg)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.sdg.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -113,13 +79,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Skills and Competence</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Skills and Competence', data.skills)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.skills.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
@@ -131,35 +95,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Overall Problem </b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Overall Problem', data.overall_problem)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                <h5>Questions</h5>
-                <p>What are your long term goals for the company?</p>
-                How would the world be a better place if you reached your long
-                term goals?<br />
-                What would the world be like if you solved the problem your
-                company is focused on?<br />
-
-                <h5>Tips</h5>
-                - Dream big<br />
-                - Make it sticky<br />
-                - Be inspiring<br />
-                - Reflect on your long term objectives<br />
-                - Check your competitors visions, how can you differentiate
-                yourself from them?<br />
-                - Make it a part of your day to day activities<br />
-
-                Your vision represents the ideal future of your business and
-                impact it can have on your customers. Unlike a belief statement
-                or a mission statement which focuses on the present, a vision
-                describes the long-term results you and your team are working
-                towards. A vision is a multipurpose tool that can Allow key
-                stakeholders to understand the meaning and purpose of your
-                company Create an emotional connection with your customers
-                Create excitement and engage existing employees Attract new
-                employees Serve as an internal communication tool that helps
-                align your team
+                <div v-html="data.overall_problem.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -167,13 +107,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Overall Solution</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Overall Solution', data.overall_solution)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.overall_solution.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -181,13 +119,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Overall Value Proposition</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Overall Value Proposition', data.overall_value_proposition)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.overall_value_proposition.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -195,25 +131,21 @@
                 <c-box flex="1" text-align="left">
                   <b>Customer Segment</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Customer Segment', data.customer_segment)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.customer_segment.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>Channels</b> </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Channels', data.channels)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.channels.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -221,13 +153,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Key Resources</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Key Resources', data.key_resources)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.key_resources.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -235,13 +165,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Key Activities</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Key Activities', data.key_activities)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.key_activities.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -249,13 +177,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Key Partners</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Key Partners', data.key_partners)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.key_partners.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -263,13 +189,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Revenue</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Revenue', data.revenue)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.revenue.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -277,13 +201,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Costs</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Costs', data.costs)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.costs.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
@@ -295,35 +217,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Point of Differentiation </b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Point of Differentiation', data.point_of_differentiation)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                <h5>Questions</h5>
-                <p>What are your long term goals for the company?</p>
-                How would the world be a better place if you reached your long
-                term goals?<br />
-                What would the world be like if you solved the problem your
-                company is focused on?<br />
-
-                <h5>Tips</h5>
-                - Dream big<br />
-                - Make it sticky<br />
-                - Be inspiring<br />
-                - Reflect on your long term objectives<br />
-                - Check your competitors visions, how can you differentiate
-                yourself from them?<br />
-                - Make it a part of your day to day activities<br />
-
-                Your vision represents the ideal future of your business and
-                impact it can have on your customers. Unlike a belief statement
-                or a mission statement which focuses on the present, a vision
-                describes the long-term results you and your team are working
-                towards. A vision is a multipurpose tool that can Allow key
-                stakeholders to understand the meaning and purpose of your
-                company Create an emotional connection with your customers
-                Create excitement and engage existing employees Attract new
-                employees Serve as an internal communication tool that helps
-                align your team
+                <div v-html="data.point_of_differentiation.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -331,13 +229,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Competition</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Competition', data.competitor)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.competitor.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -345,13 +241,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Comparison</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Comparison', data.comparison)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.comparison.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
@@ -363,35 +257,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Go to Market Strategy </b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Go to Market Strategy', data.go_to_market_strategy)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                <h5>Questions</h5>
-                <p>What are your long term goals for the company?</p>
-                How would the world be a better place if you reached your long
-                term goals?<br />
-                What would the world be like if you solved the problem your
-                company is focused on?<br />
-
-                <h5>Tips</h5>
-                - Dream big<br />
-                - Make it sticky<br />
-                - Be inspiring<br />
-                - Reflect on your long term objectives<br />
-                - Check your competitors visions, how can you differentiate
-                yourself from them?<br />
-                - Make it a part of your day to day activities<br />
-
-                Your vision represents the ideal future of your business and
-                impact it can have on your customers. Unlike a belief statement
-                or a mission statement which focuses on the present, a vision
-                describes the long-term results you and your team are working
-                towards. A vision is a multipurpose tool that can Allow key
-                stakeholders to understand the meaning and purpose of your
-                company Create an emotional connection with your customers
-                Create excitement and engage existing employees Attract new
-                employees Serve as an internal communication tool that helps
-                align your team
+                <div v-html="data.go_to_market_strategy.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -399,13 +269,11 @@
                 <c-box flex="1" text-align="left">
                   <b>Overview</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Overview', data.overview)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.overview.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -413,13 +281,11 @@
                 <c-box flex="1" text-align="left">
                   <b>TAM</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('TAM', data.tam)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.tam.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -427,25 +293,21 @@
                 <c-box flex="1" text-align="left">
                   <b>SAM</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('SAM', data.sam)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.sam.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
                 <c-box flex="1" text-align="left"> <b>SOM</b> </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('SOM', data.som)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.som.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
@@ -457,35 +319,11 @@
                 <c-box flex="1" text-align="left">
                   <b>SWOT </b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('SWOT', data.swot)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                <h5>Questions</h5>
-                <p>What are your long term goals for the company?</p>
-                How would the world be a better place if you reached your long
-                term goals?<br />
-                What would the world be like if you solved the problem your
-                company is focused on?<br />
-
-                <h5>Tips</h5>
-                - Dream big<br />
-                - Make it sticky<br />
-                - Be inspiring<br />
-                - Reflect on your long term objectives<br />
-                - Check your competitors visions, how can you differentiate
-                yourself from them?<br />
-                - Make it a part of your day to day activities<br />
-
-                Your vision represents the ideal future of your business and
-                impact it can have on your customers. Unlike a belief statement
-                or a mission statement which focuses on the present, a vision
-                describes the long-term results you and your team are working
-                towards. A vision is a multipurpose tool that can Allow key
-                stakeholders to understand the meaning and purpose of your
-                company Create an emotional connection with your customers
-                Create excitement and engage existing employees Attract new
-                employees Serve as an internal communication tool that helps
-                align your team
+                <div v-html="data.swot.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -493,13 +331,11 @@
                 <c-box flex="1" text-align="left">
                   <b>PESTLE</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('PESTLE', data.pestle)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.pestle.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
             <c-accordion-item>
@@ -507,21 +343,19 @@
                 <c-box flex="1" text-align="left">
                   <b>Risk Analysis</b>
                 </c-box>
+                 <c-button size="xs" variant-color="yellow" @click="openModal('Risk Analysis', data.risk_analysis)">Edit</c-button>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                <div v-html="data.risk_analysis.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
         </c-tab-panel>
       </c-tab-panels>
     </c-tabs>
-    <br>
-    <br>
+    <br />
+    <br />
     <c-heading marginBottom="20px">Step by Step Tour</c-heading>
     <c-tabs>
       <c-tab-list>
@@ -537,7 +371,7 @@
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat.
@@ -557,7 +391,9 @@
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
-                <c-box flex="1" text-align="left"> <b>Target Audience</b> </c-box>
+                <c-box flex="1" text-align="left">
+                  <b>Target Audience</b>
+                </c-box>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
@@ -569,7 +405,9 @@
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
-                <c-box flex="1" text-align="left"> <b>Skills and Competence you need</b> </c-box>
+                <c-box flex="1" text-align="left">
+                  <b>Skills and Competence you need</b>
+                </c-box>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
@@ -667,7 +505,9 @@
             </c-accordion-item>
             <c-accordion-item>
               <c-accordion-header>
-                <c-box flex="1" text-align="left"> <b>Risk Assessment</b> </c-box>
+                <c-box flex="1" text-align="left">
+                  <b>Risk Assessment</b>
+                </c-box>
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
@@ -681,61 +521,122 @@
         </c-tab-panel>
       </c-tab-panels>
     </c-tabs>
+    <c-modal
+      :is-open="isOpenModal"
+      :on-close="closeModal"
+      :closeOnOverlayClick="false"
+      size="xl"
+    >
+      <c-modal-content ref="content">
+        <c-modal-header>{{ modalTitle }}</c-modal-header>
+        <c-modal-close-button />
+        <c-modal-body>
+          <client-only>
+            <quill-editor
+              ref="editor"
+              v-model="content"
+              :options="editorOption"
+            />
+          </client-only>
+        </c-modal-body>
+        <c-modal-footer>
+          <c-button @click="saveExplanation" variant-color="blue" mr="3">
+            Save
+          </c-button>
+          <c-button @click="closeModal">Close</c-button>
+        </c-modal-footer>
+      </c-modal-content>
+      <c-modal-overlay />
+    </c-modal>
   </div>
 </template>
 
 <script lang="js">
 
-import countQuery from "~/graphql/queries/counts.gql";
-import postsQuery from "~/graphql/queries/posts.gql";
-import commentsQuery from "~/graphql/queries/comments.gql";
-import tagsQuery from "~/graphql/queries/tags.gql";
+import explanationQuery from "~/graphql/queries/explanations.gql";
+import editExplanation from "~/graphql/mutations/editExplanation.gql";
+import editor from "~/components/editor"
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+    editor
+  },
   layout: 'dashboard',
   data () {
     return {
+
+      data : {
+        
+      },
       counts : {},
       posts : [],
       comments : [],
-      tags : []
+      tags : [],
+      isOpenModal : false,
+      modalTitle : "",
+      editId : null,
+      content: '<p>I am Example</p>',
+      editorOption: {
+          theme: 'snow',
+          modules: {
+            toolbar: [
+              [{ size: ['small', false, 'large', 'huge'] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['blockquote', 'code-block'],
+              [{ header: 1 }, { header: 2 }],
+              [{ indent: '-1' }, { indent: '+1' }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+            ]
+          }
+        }
+      }
+  },
+  async asyncData({app, params}){
+    const apolloClient = app.apolloProvider.defaultClient
+    const data = {}
+    const explanations =  (await apolloClient.query({query : explanationQuery})).data.explanation;
+    explanations.map(expl => {data[expl.type] = expl});
+    console.log(data);
+    return {
+      data 
     }
   },
   fetch(){
-    this.getCounts();
-    this.getPosts();
-    this.getComments();
-    this.getTags();
   },
   computed: {
   },
   methods: {
-    getCounts(){
-      this.$apollo.query({query : countQuery})
+    getExplanations(){
+      console.log("===explanatory====");
+      this.$apollo.query({query : explanationQuery, fetchPolicy : 'no-cache'} )
         .then(({ data }) => {
-          this.counts = data
+          data.explanation.map(expl => {
+            this.data[expl.type] = expl
+          })
         })
     },
-     getPosts(){
-      this.$apollo.query({query : postsQuery})
-        .then(({ data }) => {
-          this.posts = data.post
-        })
+    openModal(title, data){
+      this.modalTitle = `Edit ${title} Explanation`;
+      this.content = data.content;
+      this.editId = data.id;
+      this.isOpenModal = true;
     },
-    getComments(){
-      this.$apollo.query({query : commentsQuery})
-        .then(({ data }) => {
-          this.comments = data.post_comment
-        })
+    saveExplanation(){
+      const id = this.editId;
+      const content = this.content;
+      this.$apollo.mutate({mutation : editExplanation, variables : {id, content}})
+        .then(({data})=>{
+          this.isOpenModal = false
+          this.getExplanations();
+      })
+  
     },
-    getTags(){
-      this.$apollo.query({query : tagsQuery})
-        .then(({ data }) => {
-          this.tags = data.tag
-        })
-    },
+    closeModal(){
+      this.isOpenModal = false
+    }
   }
 }
 </script>

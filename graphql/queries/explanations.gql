@@ -1,0 +1,10 @@
+query getExplanation {
+  explanation {
+    id
+    content
+    createdAt
+    updatedAt
+    mediaUrl
+    type
+  }
+}
