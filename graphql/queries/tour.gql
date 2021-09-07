@@ -1,0 +1,36 @@
+query TOUR_DATA {
+  tour {
+    createdAt
+    descriptions
+    id
+    stage
+    time
+    title
+    tour_steps(where: {parent: {_is_null: true}}) {
+      createdAt
+      description
+      descriptions
+      offset
+      params
+      route
+      target
+      time
+      title
+      tourId
+      type
+      updatedAt
+      tour_steps {
+        title
+        time
+        target
+        route
+        parent
+        offset
+        id
+        descriptions
+        description
+        createdAt
+      }
+    }
+  }
+}
