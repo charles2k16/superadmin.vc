@@ -83,7 +83,6 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -109,9 +108,9 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: 'https://vibrant-creator-graphql-core.herokuapp.com/v1/graphql',
-        // query: {
-        //   fetchPolicy: 'no-cache',
-        // }
+        query: {
+          fetchPolicy: 'no-cache',
+        }
       }
     }
   }

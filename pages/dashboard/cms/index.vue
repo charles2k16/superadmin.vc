@@ -554,6 +554,12 @@
                 <c-box flex="1" text-align="left">
                   <b>{{ step.title }}</b>
                 </c-box>
+                 <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openEditTour(step)"
+                  >Edit</c-button
+                >
                 <c-accordion-icon />
               </c-accordion-header>
               <c-accordion-panel pb="4">
@@ -574,6 +580,44 @@
                 <br />
                 <h6><b>Time</b></h6>
                 {{ step.time }}
+                <c-accordion>
+                  <c-accordion-item
+              v-for="(nestedStep, index) of step.tour_steps"
+              :key="index"
+            >
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>{{ nestedStep.title }}</b>
+                </c-box>
+                 <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openEditTour(nestedStep)"
+                  >Edit</c-button
+                >
+                <c-accordion-icon />
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <template v-if="nestedStep.descriptions">
+                  <h6><b>Descriptions</b></h6>
+                  <ul>
+                    <li
+                      v-for="(description, index) of nestedStep.descriptions"
+                      :key="index"
+                    >
+                      {{ description }}
+                    </li>
+                  </ul>
+                </template>
+                <br />
+                <h6><b>Tour Content</b></h6>
+                {{ nestedStep.description }}
+                <br />
+                <h6><b>Time</b></h6>
+                {{ nestedStep.time }}
+                </c-accordion-panel>
+            </c-accordion-item>
+                </c-accordion>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
@@ -699,6 +743,7 @@ export default {
               [{ indent: '-1' }, { indent: '+1' }],
               [{ color: [] }, { background: [] }],
               [{ align: [] }],
+              ['video']
             ]
           }
         }
@@ -725,7 +770,7 @@ export default {
       this.$apollo.query({query : explanationQuery, fetchPolicy : 'no-cache'} )
         .then(({ data }) => {
           data.explanation.map(expl => {
-            this.data.explanation[expl.type] = expl
+            this.data[expl.type] = expl
           })
         })
     },
