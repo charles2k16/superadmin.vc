@@ -17,6 +17,7 @@ query TOUR_DATA {
       time
       title
       tourId
+      id
       type
       updatedAt
       tour_steps {

@@ -677,7 +677,7 @@
             </c-label>
             <c-label>
               <b>Tour Content</b>
-              <c-textarea v-model="editTourData.description"/>
+              <c-textarea :value="editTourData.description" v-model="editTourData.description"></c-textarea>
             </c-label>
             <c-label>
               <b>Time</b>
@@ -686,7 +686,7 @@
           </c-stack>
         </c-modal-body>
         <c-modal-footer>
-          <c-button @click="saveTourData()" variant-color="blue" mr="3">
+          <c-button @click="saveTourData(editTourData)" variant-color="blue" mr="3">
             Save
           </c-button>
           <c-button @click="closeEditTourModal">Close</c-button>
@@ -702,6 +702,7 @@
 import explanationQuery from "~/graphql/queries/explanations.gql";
 import tourQuery from "~/graphql/queries/tour.gql";
 import editExplanation from "~/graphql/mutations/editExplanation.gql";
+import editTourStep from "~/graphql/mutations/editTourStep.gql";
 import editor from "~/components/editor"
 
 export default {
@@ -801,10 +802,11 @@ export default {
       console.log("=============close");
       this.addDescData = "";
     },
-    saveTourData(){
+    saveTourData({description, descriptions, time, id}){
       this.editTourDataShow = false;
-      this.addDescData = "";
-      console.log("=============save");
+
+      this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, time}})
+        .then(({data})=>{});
     },
     removeDesc(desc,index){
       desc.splice(index, 1)
