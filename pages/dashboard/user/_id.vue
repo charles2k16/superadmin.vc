@@ -137,7 +137,6 @@ export default {
   components: {},
   layout: 'dashboard',
   async asyncData({app, params}){
-    console.log(app);
     const apolloClient = app.apolloProvider.defaultClient
     return {
       userId : params.id,

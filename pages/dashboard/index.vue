@@ -39,6 +39,12 @@
     <highchart :options="dailychartOptions" />
     <highchart :options="weeklychartOptions" />
     <highchart :options="monthlychartOptions" />
+
+     <highchart :options="dailychartActiveOptions" />
+    <highchart :options="weeklychartActiveOptions" />
+    <highchart :options="monthlychartActiveOptions" />
+
+
   </div>
 </template>
 
@@ -98,6 +104,67 @@ export default {
               name: 'Users',
               data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
+              name: 'Posts',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Comments',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }],
+
+          responsive: {
+              rules: [{
+                  condition: {
+                      maxWidth: 500
+                  },
+                  chartOptions: {
+                      legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                      }
+                  }
+              }]
+          }
+      },
+      monthlychartActiveOptions: {
+          title: {
+              text: 'Monthly Active'
+          },
+
+          subtitle: {
+              text: 'Post and Comment Active Users'
+          },
+
+          yAxis: {
+              title: {
+                  text: 'Units'
+              }
+          },
+
+          xAxis: {
+              type: 'datetime',
+              tickInterval: 1000 * 3600 * 24 *30,
+              accessibility: {
+                  rangeDescription: 'Jan - Dec'
+              }
+          },
+
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle'
+          },
+
+          plotOptions: {
+              series: {
+                  label: {
+                      connectorAllowed: false
+                  },
+                  pointStart: 2014
+              }
+          },
+
+          series: [{
               name: 'Posts',
               data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
@@ -188,6 +255,68 @@ export default {
               }]
           }
       },
+      weeklychartActiveOptions: {
+          title: {
+              text: 'Weekly Active'
+          },
+
+          subtitle: {
+              text: 'Post and Comment Active Users'
+          },
+
+          yAxis: {
+              title: {
+                  text: 'Units'
+              }
+          },
+
+          xAxis: {
+              type: 'linear',
+              tickInterval : 1,
+              max : 52,
+              accessibility: {
+                  rangeDescription: 'Weeks'
+              }
+          },
+
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle'
+          },
+
+          plotOptions: {
+              series: {
+                  label: {
+                      connectorAllowed: false
+                  },
+                  pointStart: 2014
+              }
+          },
+
+          series: [{
+              name: 'Posts',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Comments',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }],
+
+          responsive: {
+              rules: [{
+                  condition: {
+                      maxWidth: 500
+                  },
+                  chartOptions: {
+                      legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                      }
+                  }
+              }]
+          }
+      },
        dailychartOptions: {
           title: {
               text: 'Daily Growth'
@@ -256,6 +385,67 @@ export default {
               }]
           }
       },
+      dailychartActiveOptions: {
+          title: {
+              text: 'Daily Active'
+          },
+
+          subtitle: {
+              text: 'Post and Comment Active Users'
+          },
+
+          yAxis: {
+              title: {
+                  text: 'Units'
+              }
+          },
+
+          xAxis: {
+              type: 'datetime',
+              tickInterval: 1000 * 3600 * 24 ,
+              accessibility: {
+                  rangeDescription: 'Jan - Dec'
+              }
+          },
+
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle'
+          },
+
+          plotOptions: {
+              series: {
+                  label: {
+                      connectorAllowed: false
+                  },
+                  pointStart: 2014
+              }
+          },
+
+          series: [{
+              name: 'Posts',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }, {
+              name: 'Comments',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          }],
+
+          responsive: {
+              rules: [{
+                  condition: {
+                      maxWidth: 500
+                  },
+                  chartOptions: {
+                      legend: {
+                          layout: 'horizontal',
+                          align: 'center',
+                          verticalAlign: 'bottom'
+                      }
+                  }
+              }]
+          }
+      },
       counts : {},
       graphqData :{}
   }
@@ -277,7 +467,6 @@ export default {
     },
     async getGraphData(){
      this.$apollo.query({query : graphQuery}).then(({data})=> {
-       console.log(data);
        this.graphqData = data;
        this.monthlychartOptions.series[0].data = this.graphqData.monthly_growth_company.map((user_month)=>{
          return {
@@ -303,8 +492,18 @@ export default {
            y : user_month.total
          }
        })
-       
-
+       this.monthlychartActiveOptions.series[0].data = this.graphqData.monthly_active_post_user.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+       this.monthlychartActiveOptions.series[1].data = this.graphqData.monthly_active_comment_user.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
          this.dailychartOptions.series[0].data = this.graphqData.daily_growth_company.map((user_day)=>{
          return {
            x : new Date(user_day.day),
@@ -329,7 +528,18 @@ export default {
            y : user_day.total
          }
        })
-
+      this.dailychartActiveOptions.series[0].data = this.graphqData.daily_active_post_users.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+       this.dailychartActiveOptions.series[1].data = this.graphqData.daily_active_comment_users.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
       this.weeklychartOptions.series[0].data = this.graphqData.weekly_growth_company.map((user_week)=>{
          return {
            x : user_week.week,
@@ -351,7 +561,19 @@ export default {
        this.weeklychartOptions.series[3].data = this.graphqData.weekly_growth_comment.map((user_week)=>{
          return {
            x : user_week.week,
-           y : user_day.total
+           y : user_week.total
+         }
+       })
+        this.weeklychartActiveOptions.series[0].data = this.graphqData.weekly_active_post_user.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
+         }
+       })
+       this.weeklychartActiveOptions.series[1].data = this.graphqData.weekly_active_comment_user.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
          }
        })
      })
