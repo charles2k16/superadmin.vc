@@ -1,0 +1,5 @@
+mutation MyMutation($id:Int! $descriptions: jsonb!, $time: String!) {
+  update_tour_by_pk(pk_columns: {id: $id}, _set: {descriptions: $descriptions, time: $time}) {
+    id
+  }
+}

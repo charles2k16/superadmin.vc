@@ -505,9 +505,35 @@
       </c-tab-list>
       <c-tab-panels>
         <c-tab-panel>
-          <c-accordion>
+          <c-accordion v-if="data.tour">
+            <c-accordion-item>
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>Main description</b>
+                </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openEditTour(data.tour[0], true)"
+                  >Edit</c-button
+                >
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <ul>
+                  <li
+                    v-for="(description, index) in data.tour[0].descriptions"
+                    :key="index"
+                  >
+                    {{ description }}
+                  </li>
+                </ul>
+                <br />
+                <h6><b>Time</b></h6>
+                {{ data.tour[0].time }}
+              </c-accordion-panel>
+            </c-accordion-item>
             <c-accordion-item
-              v-for="(step, index) of data.tour[0].tour_steps"
+              v-for="(step, index) in data.tour[0].tour_steps"
               :key="index"
             >
               <c-accordion-header>
@@ -527,7 +553,7 @@
                   <h6><b>Descriptions</b></h6>
                   <ul>
                     <li
-                      v-for="(description, index) of step.descriptions"
+                      v-for="(description, index) in step.descriptions"
                       :key="index"
                     >
                       {{ description }}
@@ -541,21 +567,87 @@
                 <br />
                 <h6><b>Time</b></h6>
                 {{ step.time }}
+                 <c-accordion v-if="step.tour_steps.length">
+                  <c-accordion-item
+                    v-for="(nestedStep, index) in step.tour_steps"
+                    :key="index"
+                  >
+                    <c-accordion-header>
+                      <c-box flex="1" text-align="left">
+                        <b>{{ nestedStep.title }}</b>
+                      </c-box>
+                      <c-button
+                        size="xs"
+                        variant-color="yellow"
+                        @click="openEditTour(nestedStep)"
+                        >Edit</c-button
+                      >
+                      <c-accordion-icon />
+                    </c-accordion-header>
+                    <c-accordion-panel pb="4">
+                      <template v-if="nestedStep.descriptions">
+                        <h6><b>Descriptions</b></h6>
+                        <ul>
+                          <li
+                            v-for="(
+                              description, index
+                            ) in nestedStep.descriptions"
+                            :key="index"
+                          >
+                            {{ description }}
+                          </li>
+                        </ul>
+                      </template>
+                      <br />
+                      <h6><b>Tour Content</b></h6>
+                      {{ nestedStep.description }}
+                      <br />
+                      <h6><b>Time</b></h6>
+                      {{ nestedStep.time }}
+                    </c-accordion-panel>
+                  </c-accordion-item>
+                </c-accordion>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
         </c-tab-panel>
         <c-tab-panel>
           <c-accordion>
+            <c-accordion-item>
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>Main description</b>
+                </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openEditTour(data.tour[1], true)"
+                  >Edit</c-button
+                >
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <ul>
+                  <li
+                    v-for="(description, index) in data.tour[1].descriptions"
+                    :key="index"
+                  >
+                    {{ description }}
+                  </li>
+                </ul>
+                <br />
+                <h6><b>Time</b></h6>
+                {{ data.tour[1].time }}
+              </c-accordion-panel>
+            </c-accordion-item>
             <c-accordion-item
-              v-for="(step, index) of data.tour[1].tour_steps"
+              v-for="(step, index) in data.tour[1].tour_steps"
               :key="index"
             >
               <c-accordion-header>
                 <c-box flex="1" text-align="left">
                   <b>{{ step.title }}</b>
                 </c-box>
-                 <c-button
+                <c-button
                   size="xs"
                   variant-color="yellow"
                   @click="openEditTour(step)"
@@ -568,7 +660,7 @@
                   <h6><b>Descriptions</b></h6>
                   <ul>
                     <li
-                      v-for="(description, index) of step.descriptions"
+                      v-for="(description, index) in step.descriptions"
                       :key="index"
                     >
                       {{ description }}
@@ -581,59 +673,87 @@
                 <br />
                 <h6><b>Time</b></h6>
                 {{ step.time }}
-                <c-accordion>
+                <c-accordion v-if="step.tour_steps.length">
                   <c-accordion-item
-              v-for="(nestedStep, index) of step.tour_steps"
-              :key="index"
-            >
-              <c-accordion-header>
-                <c-box flex="1" text-align="left">
-                  <b>{{ nestedStep.title }}</b>
-                </c-box>
-                 <c-button
-                  size="xs"
-                  variant-color="yellow"
-                  @click="openEditTour(nestedStep)"
-                  >Edit</c-button
-                >
-                <c-accordion-icon />
-              </c-accordion-header>
-              <c-accordion-panel pb="4">
-                <template v-if="nestedStep.descriptions">
-                  <h6><b>Descriptions</b></h6>
-                  <ul>
-                    <li
-                      v-for="(description, index) of nestedStep.descriptions"
-                      :key="index"
-                    >
-                      {{ description }}
-                    </li>
-                  </ul>
-                </template>
-                <br />
-                <h6><b>Tour Content</b></h6>
-                {{ nestedStep.description }}
-                <br />
-                <h6><b>Time</b></h6>
-                {{ nestedStep.time }}
-                </c-accordion-panel>
-            </c-accordion-item>
+                    v-for="(nestedStep, index) in step.tour_steps"
+                    :key="index"
+                  >
+                    <c-accordion-header>
+                      <c-box flex="1" text-align="left">
+                        <b>{{ nestedStep.title }}</b>
+                      </c-box>
+                      <c-button
+                        size="xs"
+                        variant-color="yellow"
+                        @click="openEditTour(nestedStep)"
+                        >Edit</c-button
+                      >
+                      <c-accordion-icon />
+                    </c-accordion-header>
+                    <c-accordion-panel pb="4">
+                      <template v-if="nestedStep.descriptions">
+                        <h6><b>Descriptions</b></h6>
+                        <ul>
+                          <li
+                            v-for="(
+                              description, index
+                            ) in nestedStep.descriptions"
+                            :key="index"
+                          >
+                            {{ description }}
+                          </li>
+                        </ul>
+                      </template>
+                      <br />
+                      <h6><b>Tour Content</b></h6>
+                      {{ nestedStep.description }}
+                      <br />
+                      <h6><b>Time</b></h6>
+                      {{ nestedStep.time }}
+                    </c-accordion-panel>
+                  </c-accordion-item>
                 </c-accordion>
               </c-accordion-panel>
             </c-accordion-item>
           </c-accordion>
         </c-tab-panel>
-         <c-tab-panel>
+        <c-tab-panel>
           <c-accordion>
+            <c-accordion-item>
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>Main description</b>
+                </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openEditTour(data.tour[2], true)"
+                  >Edit</c-button
+                >
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <ul>
+                  <li
+                    v-for="(description, index) in data.tour[2].descriptions"
+                    :key="index"
+                  >
+                    {{ description }}
+                  </li>
+                </ul>
+                <br />
+                <h6><b>Time</b></h6>
+                {{ data.tour[2].time }}
+              </c-accordion-panel>
+            </c-accordion-item>
             <c-accordion-item
-              v-for="(step, index) of data.tour[2].tour_steps"
+              v-for="(step, index) in data.tour[2].tour_steps"
               :key="index"
             >
               <c-accordion-header>
                 <c-box flex="1" text-align="left">
                   <b>{{ step.title }}</b>
                 </c-box>
-                 <c-button
+                <c-button
                   size="xs"
                   variant-color="yellow"
                   @click="openEditTour(step)"
@@ -646,7 +766,7 @@
                   <h6><b>Descriptions</b></h6>
                   <ul>
                     <li
-                      v-for="(description, index) of step.descriptions"
+                      v-for="(description, index) in step.descriptions"
                       :key="index"
                     >
                       {{ description }}
@@ -659,43 +779,46 @@
                 <br />
                 <h6><b>Time</b></h6>
                 {{ step.time }}
-                <c-accordion>
+
+                 <c-accordion v-if="step.tour_steps.length">
                   <c-accordion-item
-              v-for="(nestedStep, index) of step.tour_steps"
-              :key="index"
-            >
-              <c-accordion-header>
-                <c-box flex="1" text-align="left">
-                  <b>{{ nestedStep.title }}</b>
-                </c-box>
-                 <c-button
-                  size="xs"
-                  variant-color="yellow"
-                  @click="openEditTour(nestedStep)"
-                  >Edit</c-button
-                >
-                <c-accordion-icon />
-              </c-accordion-header>
-              <c-accordion-panel pb="4">
-                <template v-if="nestedStep.descriptions">
-                  <h6><b>Descriptions</b></h6>
-                  <ul>
-                    <li
-                      v-for="(description, index) of nestedStep.descriptions"
-                      :key="index"
-                    >
-                      {{ description }}
-                    </li>
-                  </ul>
-                </template>
-                <br />
-                <h6><b>Tour Content</b></h6>
-                {{ nestedStep.description }}
-                <br />
-                <h6><b>Time</b></h6>
-                {{ nestedStep.time }}
-                </c-accordion-panel>
-            </c-accordion-item>
+                    v-for="(nestedStep, index) in step.tour_steps"
+                    :key="index"
+                  >
+                    <c-accordion-header>
+                      <c-box flex="1" text-align="left">
+                        <b>{{ nestedStep.title }}</b>
+                      </c-box>
+                      <c-button
+                        size="xs"
+                        variant-color="yellow"
+                        @click="openEditTour(nestedStep)"
+                        >Edit</c-button
+                      >
+                      <c-accordion-icon />
+                    </c-accordion-header>
+                    <c-accordion-panel pb="4">
+                      <template v-if="nestedStep.descriptions">
+                        <h6><b>Descriptions</b></h6>
+                        <ul>
+                          <li
+                            v-for="(
+                              description, index
+                            ) in nestedStep.descriptions"
+                            :key="index"
+                          >
+                            {{ description }}
+                          </li>
+                        </ul>
+                      </template>
+                      <br />
+                      <h6><b>Tour Content</b></h6>
+                      {{ nestedStep.description }}
+                      <br />
+                      <h6><b>Time</b></h6>
+                      {{ nestedStep.time }}
+                    </c-accordion-panel>
+                  </c-accordion-item>
                 </c-accordion>
               </c-accordion-panel>
             </c-accordion-item>
@@ -741,22 +864,35 @@
         <c-modal-close-button />
         <c-modal-body>
           <c-stack spacing="5">
-             <c-list spacing="5">
-            <c-list-item v-for="(desc, index) of editTourData.descriptions" :key="index">
-              {{desc}}
-              <c-close-button @click="removeDesc(editTourData.descriptions,index)" size="sm" />
-            </c-list-item>
-          </c-list>
-           <c-label>
+            <c-list spacing="5">
+              <c-list-item
+                v-for="(desc, index) of editTourData.descriptions"
+                :key="index"
+              >
+                {{ desc }}
+                <c-close-button
+                  @click="removeDesc(editTourData.descriptions, index)"
+                  size="sm"
+                />
+              </c-list-item>
+            </c-list>
+            <c-label>
               <b>Add description</b>
-              <c-textarea v-model="addDescData"/>
-              <c-button @click="addDesc(editTourData.descriptions,addDescData)" variant-color="green" size="xs">
-                  Add
+              <c-textarea v-model="addDescData" />
+              <c-button
+                @click="addDesc(editTourData.descriptions, addDescData)"
+                variant-color="green"
+                size="xs"
+              >
+                Add
               </c-button>
             </c-label>
-            <c-label>
+            <c-label v-if="!isMainEdit">
               <b>Tour Content</b>
-              <c-textarea :value="editTourData.description" v-model="editTourData.description"></c-textarea>
+              <c-textarea
+                :value="editTourData.description"
+                v-model="editTourData.description"
+              ></c-textarea>
             </c-label>
             <c-label>
               <b>Time</b>
@@ -765,7 +901,11 @@
           </c-stack>
         </c-modal-body>
         <c-modal-footer>
-          <c-button @click="saveTourData(editTourData)" variant-color="blue" mr="3">
+          <c-button
+            @click="saveTourData(editTourData, isMainEdit)"
+            variant-color="blue"
+            mr="3"
+          >
             Save
           </c-button>
           <c-button @click="closeEditTourModal">Close</c-button>
@@ -782,6 +922,7 @@ import explanationQuery from "~/graphql/queries/explanations.gql";
 import tourQuery from "~/graphql/queries/tour.gql";
 import editExplanation from "~/graphql/mutations/editExplanation.gql";
 import editTourStep from "~/graphql/mutations/editTourStep.gql";
+import editTour from "~/graphql/mutations/editTour.gql";
 import editor from "~/components/editor"
 
 export default {
@@ -794,13 +935,14 @@ export default {
     return {
       data : {
         explanation : {},
-        tour : {}
+        tour : []
       },
       counts : {},
       posts : [],
       comments : [],
       tags : [],
       isOpenModal : false,
+      isMainEdit : false,
       modalTitle : "",
       editId : null,
       content: '<p>I am Example</p>',
@@ -841,8 +983,6 @@ export default {
       data 
     }
   },
-  fetch(){
-  },
   computed: {
   },
   methods: {
@@ -860,9 +1000,10 @@ export default {
       this.editId = data.id;
       this.isOpenModal = true;
     },
-    openEditTour(data){
+    openEditTour(data, mainEdit = false){
       this.editTourData = data
       this.editTourDataShow = true;
+      this.isMainEdit = mainEdit;
     },
     saveExplanation(){
       const id = this.editId;
@@ -881,11 +1022,16 @@ export default {
       console.log("=============close");
       this.addDescData = "";
     },
-    saveTourData({description, descriptions, time, id}){
+    saveTourData({description, descriptions, time, id}, mainEdit = false){
       this.editTourDataShow = false;
-
-      this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, time}})
+      if(mainEdit){
+        this.$apollo.mutate({mutation : editTour, variables : {id, descriptions, time}})
         .then(({data})=>{});
+      }else{
+        this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, time}})
+        .then(({data})=>{});
+      }
+      
     },
     removeDesc(desc,index){
       desc.splice(index, 1)
