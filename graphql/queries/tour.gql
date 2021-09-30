@@ -17,6 +17,7 @@ query TOUR_DATA {
       time
       title
       tourId
+      position
       id
       type
       updatedAt
@@ -28,6 +29,7 @@ query TOUR_DATA {
         parent
         offset
         id
+        position
         descriptions
         description
         createdAt

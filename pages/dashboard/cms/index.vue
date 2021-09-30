@@ -898,6 +898,10 @@
               <b>Time</b>
               <c-input v-model="editTourData.time" size="md" />
             </c-label>
+             <c-label v-if="!isMainEdit">
+              <b>Position</b>
+              <c-input v-model="editTourData.position" size="md" />
+            </c-label>
           </c-stack>
         </c-modal-body>
         <c-modal-footer>
@@ -977,7 +981,7 @@ export default {
     const explanations =  (await apolloClient.query({query : explanationQuery})).data.explanation;
     explanations.map(expl => {data[expl.type] = expl});
     const tour = (await apolloClient.query({query : tourQuery})).data.tour;
-    data.tour = tour;
+    data.tour = tour.sort();
     console.log(data);
     return {
       data 
@@ -1022,13 +1026,13 @@ export default {
       console.log("=============close");
       this.addDescData = "";
     },
-    saveTourData({description, descriptions, time, id}, mainEdit = false){
+    saveTourData({description, descriptions, time, id, position}, mainEdit = false){
       this.editTourDataShow = false;
       if(mainEdit){
         this.$apollo.mutate({mutation : editTour, variables : {id, descriptions, time}})
         .then(({data})=>{});
       }else{
-        this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, time}})
+        this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, position, time}})
         .then(({data})=>{});
       }
       

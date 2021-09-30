@@ -62,7 +62,7 @@
               Registeration Date
             </c-text>
             <c-text fontSize="13px">
-              {{$moment(user.createdAt).calendar()}}
+              {{$moment(user.createdAt).format('MMMM Do YYYY, h:mm:ss a')}}
             </c-text>
           </c-box>
         </c-grid>
