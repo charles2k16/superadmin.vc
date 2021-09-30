@@ -4,6 +4,7 @@ query user($id: Int!) {
     firstname
     lastname
     id
+    createdAt
     teams {
       company {
         name
