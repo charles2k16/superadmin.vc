@@ -88,7 +88,7 @@ export default {
   build: {},
 
   axios: {
-    baseURL: 'https://api-dev.vibrantcreator.com/v1/api'
+    baseURL: 'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
   },
 
   auth: {
@@ -107,7 +107,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://vibrant-creator-graphql-core.herokuapp.com/v1/graphql',
+        httpEndpoint: 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql',
         query: {
           fetchPolicy: 'no-cache',
         }
