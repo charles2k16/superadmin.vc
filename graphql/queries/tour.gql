@@ -1,12 +1,15 @@
 query TOUR_DATA {
-  tour {
+  tour(order_by: { stage: asc }) {
     createdAt
     descriptions
     id
     stage
     time
     title
-    tour_steps(where: {parent: {_is_null: true}}) {
+    tour_steps(
+      where: { parent: { _is_null: true } }
+      order_by: { position: asc }
+    ) {
       createdAt
       description
       descriptions
@@ -21,7 +24,7 @@ query TOUR_DATA {
       id
       type
       updatedAt
-      tour_steps {
+      tour_steps(order_by: { position: asc }) {
         title
         time
         target

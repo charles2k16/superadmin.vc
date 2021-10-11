@@ -876,7 +876,7 @@
                 />
               </c-list-item>
             </c-list>
-            <c-label>
+            <label>
               <b>Add description</b>
               <c-textarea v-model="addDescData" />
               <c-button
@@ -886,22 +886,22 @@
               >
                 Add
               </c-button>
-            </c-label>
-            <c-label v-if="!isMainEdit">
+            </label>
+            <label v-if="!isMainEdit">
               <b>Tour Content</b>
               <c-textarea
                 :value="editTourData.description"
                 v-model="editTourData.description"
               ></c-textarea>
-            </c-label>
-            <c-label>
+            </label>
+            <label>
               <b>Time</b>
               <c-input v-model="editTourData.time" size="md" />
-            </c-label>
-             <c-label v-if="!isMainEdit">
+            </label>
+             <label v-if="!isMainEdit">
               <b>Position</b>
-              <c-input v-model="editTourData.position" size="md" />
-            </c-label>
+              <c-input type="number" v-model.number="editTourData.position" size="md" />
+            </label>
           </c-stack>
         </c-modal-body>
         <c-modal-footer>
@@ -1030,7 +1030,9 @@ export default {
       this.editTourDataShow = false;
       if(mainEdit){
         this.$apollo.mutate({mutation : editTour, variables : {id, descriptions, time}})
-        .then(({data})=>{});
+        .then(({data})=>{
+          console.log(data);
+        });
       }else{
         this.$apollo.mutate({mutation : editTourStep, variables : {id, descriptions, description, position, time}})
         .then(({data})=>{});

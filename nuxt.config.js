@@ -1,11 +1,18 @@
-import { faBuilding, faChartBar, faUsers , faSignOutAlt, faComments, faUsersCog } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBuilding,
+  faChartBar,
+  faUsers,
+  faSignOutAlt,
+  faComments,
+  faUsersCog
+} from '@fortawesome/free-solid-svg-icons';
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'spa',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,9 +26,7 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -34,16 +39,12 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~plugins/nuxt-quill-plugin', ssr: false }
-  ],
+  plugins: [{ src: '~plugins/nuxt-quill-plugin', ssr: false }],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/moment'
-  ],
+  buildModules: ['@nuxtjs/moment'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -99,7 +100,7 @@ export default {
           user: { url: 'admin/me', method: 'get', propertyName: 'result' },
           logout: false
         },
-        autoLogout : true
+        autoLogout: true
       }
     }
   },
@@ -107,12 +108,12 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql',
+        httpEndpoint:
+          'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql',
         query: {
-          fetchPolicy: 'no-cache',
+          fetchPolicy: 'no-cache'
         }
       }
     }
   }
-
-}
+};
