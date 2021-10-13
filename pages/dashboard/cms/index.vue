@@ -106,6 +106,40 @@
                 <div v-html="data.skills.content"></div>
               </c-accordion-panel>
             </c-accordion-item>
+            <c-accordion-item>
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>Market Goals</b>
+                </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openModal('Market Goals', data.market_goals)"
+                  >Edit</c-button
+                >
+                <c-accordion-icon />
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <div v-html="data.market_goals.content"></div>
+              </c-accordion-panel>
+            </c-accordion-item>
+            <c-accordion-item>
+              <c-accordion-header>
+                <c-box flex="1" text-align="left">
+                  <b>Traction</b>
+                </c-box>
+                <c-button
+                  size="xs"
+                  variant-color="yellow"
+                  @click="openModal('Traction', data.traction)"
+                  >Edit</c-button
+                >
+                <c-accordion-icon />
+              </c-accordion-header>
+              <c-accordion-panel pb="4">
+                <div v-html="data.traction.content"></div>
+              </c-accordion-panel>
+            </c-accordion-item>
           </c-accordion>
         </c-tab-panel>
         <c-tab-panel>
