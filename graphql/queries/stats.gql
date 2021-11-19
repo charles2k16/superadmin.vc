@@ -92,7 +92,7 @@ query monthly_growths {
     total
   }
   weekly_active_user {
-    sgrowth
+    growth
     week
     total
   }
