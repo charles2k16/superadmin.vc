@@ -5,34 +5,108 @@
     <c-stat-group>
       <c-stat>
         <c-stat-label>Total Registered Businesses</c-stat-label>
-        <c-stat-number>{{counts.company_aggregate ? counts.company_aggregate.aggregate.count : 0}}</c-stat-number>
+        <c-stat-number>{{
+          counts.company_aggregate
+            ? counts.company_aggregate.aggregate.count
+            : 0
+        }}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow :type="graphqData.monthly_growth_company ? graphqData.monthly_growth_company[graphqData.monthly_growth_company.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
-          {{graphqData.monthly_growth_company ? graphqData.monthly_growth_company[graphqData.monthly_growth_company.lastIndex].growth + 0 : 0 }}%
+          <c-stat-arrow
+            :type="
+              graphqData.monthly_growth_company
+                ? graphqData.monthly_growth_company[
+                    graphqData.monthly_growth_company.lastIndex
+                  ].growth >= 0
+                  ? 'increase'
+                  : 'decrease'
+                : 'increase'
+            "
+          />
+          {{
+            graphqData.monthly_growth_company
+              ? graphqData.monthly_growth_company[
+                  graphqData.monthly_growth_company.lastIndex
+                ].growth + 0
+              : 0
+          }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Register Users</c-stat-label>
-        <c-stat-number>{{ counts.user_aggregate ? counts.user_aggregate.aggregate.count : 0}}</c-stat-number>
+        <c-stat-number>{{
+          counts.user_aggregate ? counts.user_aggregate.aggregate.count : 0
+        }}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow :type="graphqData.monthly_growth ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
-            {{graphqData.monthly_growth ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex].growth + 0 : 0 }}%
+          <c-stat-arrow
+            :type="
+              graphqData.monthly_growth
+                ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex]
+                    .growth >= 0
+                  ? 'increase'
+                  : 'decrease'
+                : 'increase'
+            "
+          />
+          {{
+            graphqData.monthly_growth
+              ? graphqData.monthly_growth[graphqData.monthly_growth.lastIndex]
+                  .growth + 0
+              : 0
+          }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Posts on Insights</c-stat-label>
-        <c-stat-number>{{ counts.post_aggregate ? counts.post_aggregate.aggregate.count : 0}}</c-stat-number>
+        <c-stat-number>{{
+          counts.post_aggregate ? counts.post_aggregate.aggregate.count : 0
+        }}</c-stat-number>
         <c-stat-helper-text>
-          <c-stat-arrow :type="graphqData.monthly_growth_post ? graphqData.monthly_growth_post[graphqData.monthly_growth_post.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
-            {{graphqData.monthly_growth_post ? graphqData.monthly_growth_post[graphqData.monthly_growth_post.lastIndex].growth + 0 : 0 }}%
+          <c-stat-arrow
+            :type="
+              graphqData.monthly_growth_post
+                ? graphqData.monthly_growth_post[
+                    graphqData.monthly_growth_post.lastIndex
+                  ].growth >= 0
+                  ? 'increase'
+                  : 'decrease'
+                : 'increase'
+            "
+          />
+          {{
+            graphqData.monthly_growth_post
+              ? graphqData.monthly_growth_post[
+                  graphqData.monthly_growth_post.lastIndex
+                ].growth + 0
+              : 0
+          }}%
         </c-stat-helper-text>
       </c-stat>
       <c-stat>
         <c-stat-label>Total Comments on Insights</c-stat-label>
-        <c-stat-number>{{ counts.post_comment_aggregate ? counts.post_comment_aggregate.aggregate.count : 0}}</c-stat-number>
+        <c-stat-number>{{
+          counts.post_comment_aggregate
+            ? counts.post_comment_aggregate.aggregate.count
+            : 0
+        }}</c-stat-number>
         <c-stat-helper-text>
-            <c-stat-arrow :type="graphqData.monthly_growth_comment ? graphqData.monthly_growth_comment[graphqData.monthly_growth_comment.lastIndex].growth >= 0 ? 'increase' : 'decrease' : 'increase'" />
-            {{graphqData.monthly_growth_comment ? graphqData.monthly_growth_comment[graphqData.monthly_growth_comment.lastIndex].growth + 0 : 0 }}%
+          <c-stat-arrow
+            :type="
+              graphqData.monthly_growth_comment
+                ? graphqData.monthly_growth_comment[
+                    graphqData.monthly_growth_comment.lastIndex
+                  ].growth >= 0
+                  ? 'increase'
+                  : 'decrease'
+                : 'increase'
+            "
+          />
+          {{
+            graphqData.monthly_growth_comment
+              ? graphqData.monthly_growth_comment[
+                  graphqData.monthly_growth_comment.lastIndex
+                ].growth + 0
+              : 0
+          }}%
         </c-stat-helper-text>
       </c-stat>
     </c-stat-group>
@@ -40,11 +114,9 @@
     <highchart :options="weeklychartOptions" />
     <highchart :options="monthlychartOptions" />
 
-     <highchart :options="dailychartActiveOptions" />
+    <highchart :options="dailychartActiveOptions" />
     <highchart :options="weeklychartActiveOptions" />
     <highchart :options="monthlychartActiveOptions" />
-
-
   </div>
 </template>
 
@@ -164,7 +236,12 @@ export default {
               }
           },
 
-          series: [{
+          series: [
+              {
+              name: 'Users',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          },
+              {
               name: 'Posts',
               data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
@@ -294,7 +371,12 @@ export default {
               }
           },
 
-          series: [{
+          series: [
+              {
+              name: 'Users',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          },
+              {
               name: 'Posts',
               data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
@@ -332,7 +414,7 @@ export default {
               }
           },
 
-         
+
            xAxis: {
               type: 'datetime',
               tickInterval: 1000 * 3600 * 24,
@@ -423,7 +505,12 @@ export default {
               }
           },
 
-          series: [{
+          series: [
+              {
+              name: 'Users',
+              data: [0, 0, 0, 0, 0, 0, 0, 0]
+          },
+              {
               name: 'Posts',
               data: [0, 0, 0, 0, 0, 0, 0, 0]
           }, {
@@ -492,13 +579,19 @@ export default {
            y : user_month.total
          }
        })
-       this.monthlychartActiveOptions.series[0].data = this.graphqData.monthly_active_post_user.map((user_month)=>{
+        this.monthlychartActiveOptions.series[0].data = this.graphqData.monthly_active_user.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
          }
        })
-       this.monthlychartActiveOptions.series[1].data = this.graphqData.monthly_active_comment_user.map((user_month)=>{
+       this.monthlychartActiveOptions.series[1].data = this.graphqData.monthly_active_post_user.map((user_month)=>{
+         return {
+           x : new Date(user_month.month),
+           y : user_month.total
+         }
+       })
+       this.monthlychartActiveOptions.series[2].data = this.graphqData.monthly_active_comment_user.map((user_month)=>{
          return {
            x : new Date(user_month.month),
            y : user_month.total
@@ -528,13 +621,19 @@ export default {
            y : user_day.total
          }
        })
-      this.dailychartActiveOptions.series[0].data = this.graphqData.daily_active_post_users.map((user_day)=>{
+       this.dailychartActiveOptions.series[0].data = this.graphqData.daily_active_users.map((user_day)=>{
          return {
            x : new Date(user_day.day),
            y : user_day.total
          }
        })
-       this.dailychartActiveOptions.series[1].data = this.graphqData.daily_active_comment_users.map((user_day)=>{
+      this.dailychartActiveOptions.series[1].data = this.graphqData.daily_active_post_users.map((user_day)=>{
+         return {
+           x : new Date(user_day.day),
+           y : user_day.total
+         }
+       })
+       this.dailychartActiveOptions.series[2].data = this.graphqData.daily_active_comment_users.map((user_day)=>{
          return {
            x : new Date(user_day.day),
            y : user_day.total
@@ -564,13 +663,19 @@ export default {
            y : user_week.total
          }
        })
-        this.weeklychartActiveOptions.series[0].data = this.graphqData.weekly_active_post_user.map((user_week)=>{
+       this.weeklychartActiveOptions.series[0].data = this.graphqData.weekly_active_user.map((user_week)=>{
          return {
            x : user_week.week,
            y : user_week.total
          }
        })
-       this.weeklychartActiveOptions.series[1].data = this.graphqData.weekly_active_comment_user.map((user_week)=>{
+        this.weeklychartActiveOptions.series[1].data = this.graphqData.weekly_active_post_user.map((user_week)=>{
+         return {
+           x : user_week.week,
+           y : user_week.total
+         }
+       })
+       this.weeklychartActiveOptions.series[2].data = this.graphqData.weekly_active_comment_user.map((user_week)=>{
          return {
            x : user_week.week,
            y : user_week.total

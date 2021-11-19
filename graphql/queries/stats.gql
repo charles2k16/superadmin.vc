@@ -19,7 +19,12 @@ query monthly_growths {
     month
     total
   }
-   monthly_active_comment_user {
+  monthly_active_user {
+    growth
+    month
+    total
+  }
+  monthly_active_comment_user {
     growth
     month
     total
@@ -50,18 +55,22 @@ query monthly_growths {
     day
     total
   }
-   daily_active_post_users {
+  daily_active_user {
     growth
     day
     total
   }
-   daily_active_comment_users {
+  daily_active_post_users {
+    growth
+    day
+    total
+  }
+  daily_active_comment_users {
     growth
     day
     total
   }
 
-  
   weekly_growth {
     week
     total
@@ -82,7 +91,12 @@ query monthly_growths {
     week
     total
   }
-   weekly_active_post_user {
+  weekly_active_user {
+    sgrowth
+    week
+    total
+  }
+  weekly_active_post_user {
     growth
     week
     total
