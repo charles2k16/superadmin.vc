@@ -621,7 +621,7 @@ export default {
            y : user_day.total
          }
        })
-       this.dailychartActiveOptions.series[0].data = this.graphqData.daily_active_users.map((user_day)=>{
+       this.dailychartActiveOptions.series[0].data = this.graphqData.daily_active_user.map((user_day)=>{
          return {
            x : new Date(user_day.day),
            y : user_day.total
