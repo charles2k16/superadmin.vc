@@ -33,7 +33,7 @@
       </c-button>
       <download-csv
         v-show="false"
-        ref="downloadCSV"
+        ref="downloadCSV1"
         :data="usersToDownload"
         :name="`VC-USERS-${new Date()}.csv`"
       />

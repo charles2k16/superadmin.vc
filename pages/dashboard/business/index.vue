@@ -30,7 +30,7 @@
       </c-button>
       <download-csv
         v-show="false"
-        ref="downloadCSV"
+        ref="downloadCSV2"
         :data="businessesToDownload"
         :name="`VC-BUSINESSES-${new Date()}.csv`"
       />
