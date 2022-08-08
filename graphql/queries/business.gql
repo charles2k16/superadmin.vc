@@ -1,0 +1,54 @@
+query business($id: Int!) {
+  company_by_pk(id: $id) {
+   
+    business_stage {
+        name
+    }
+    city
+    country
+    id
+    name
+    size
+    business_objective {
+        description
+        value
+    }
+    createdAt
+    investmentEtaMetric
+    investmentEtaValue
+    company_sectors {
+      business_sector {
+        id
+        name
+      }
+    }
+
+    teams {
+      company {
+        name
+        id
+      }
+    }
+    
+    posts_aggregate {
+      aggregate {
+        count
+      }
+    }
+
+    teams_aggregate {
+      aggregate {
+        count
+      }
+    }
+    
+    posts {
+      content
+      createdAt
+       company {
+          name
+          coverImage
+        }
+    }
+  }
+}

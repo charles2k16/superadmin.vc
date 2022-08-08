@@ -13,10 +13,35 @@
         </c-stat-helper-text>
       </c-stat>
     </c-stat-group>
+    <c-box d="flex" align-items="center" mb="5">
+      <c-input-group w="100" mr="5">
+        <c-input-left-element
+          ><i class="fa fa-search"></i
+        ></c-input-left-element>
+        <c-input
+          v-model="search"
+          type="text"
+          placeholder="Search User by name, email"
+        />
+      </c-input-group>
+      <c-button
+        @click="$refs.downloadCSV1.$el.click()"
+        variant-color="blue"
+        size="sm"
+      >
+        Export
+      </c-button>
+      <download-csv
+        v-show="false"
+        ref="downloadCSV"
+        :data="usersToDownload"
+        :name="`VC-USERS-${new Date()}.csv`"
+      />
+    </c-box>
     <div>
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
-          <template v-for="(user, index) in users">
+          <template v-for="(user, index) in filteredUsers">
             <c-grid template-columns="100px repeat(4, 1fr) 100px" :key="index">
               <c-box>
                 <c-avatar
@@ -33,13 +58,12 @@
                       ? `${user.firstname} ${user.lastname}`
                       : `No name`
                   }}
-                   <c-badge mx="2" v-if="user.isBlocked" variant-color="yellow"
+                  <c-badge mx="2" v-if="user.isBlocked" variant-color="yellow"
                     >blocked</c-badge
                   >
                   <c-badge mx="2" v-if="user.isDeleted" variant-color="red"
                     >deleted</c-badge
                   >
-                 
                 </c-text>
               </c-box>
               <c-box>
@@ -51,7 +75,7 @@
               <c-box>
                 <c-text fontSize="11px" color="gray.500"> Companies </c-text>
                 <c-text fontSize="13px">
-                  {{ user.teams.length ? "" : "Pending Invites" }}
+                  {{ user.teams.length ? '' : 'Pending Invites' }}
                   <ul>
                     <li v-for="(team, index) in user.teams" :key="index">
                       {{ team.company.name }}
@@ -80,10 +104,10 @@
                     >View</c-menu-item
                   >
                   <c-menu-item @click="toggleBlock(user.id, user.isBlocked)">{{
-                    user.isBlocked ? "Unblock" : "Block"
+                    user.isBlocked ? 'Unblock' : 'Block'
                   }}</c-menu-item>
                   <c-menu-item @click="toggleDelete(user.id, user.isDeleted)">{{
-                    user.isDeleted ? "Undelete" : "Delete"
+                    user.isDeleted ? 'Undelete' : 'Delete'
                   }}</c-menu-item>
                 </c-menu-list>
               </c-menu>
@@ -106,17 +130,39 @@ import toggleDeleteUser from "~/graphql/mutations/toggleDeleteUser.gql";
 
 export default {
   name: 'App',
-  components: {},
+  components: {
+  },
   layout: 'dashboard',
   data () {
     return {
       counts : {},
-      users : []
+      users : [],
+      search: ''
     }
   },
   fetch(){
     this.getCounts();
     this.getUsers();
+  },
+  computed: {
+    filteredUsers(){
+      if(!this.search){
+        return this.users;
+      }
+      return this.users.filter(user => user.firstname?.toLowerCase().includes(this.search?.toLowerCase()) || user.lastname?.toLowerCase().includes(this.search?.toLowerCase()) || user.email?.toLowerCase().includes(this.search?.toLowerCase()))
+    },
+    usersToDownload(){
+      return this.users.map(user => {
+        return {
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          createdAt: user.createdAt,
+          isBlocked: user.isBlocked,
+          isDeleted: user.isDeleted,
+        }
+      })
+    }
   },
   methods: {
     getCounts(){
@@ -148,7 +194,7 @@ export default {
         .then(({data})=>{
           this.getUsers();
         })
-  }
+  },
   }
 }
 </script>
