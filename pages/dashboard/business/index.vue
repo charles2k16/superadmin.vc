@@ -144,7 +144,6 @@ export default {
     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
-          // do what you want with data
           console.log(data);
           this.counts = data
         })
@@ -152,7 +151,6 @@ export default {
      getBusiness(){
       this.$apollo.query({query : businessQuery})
         .then(({ data }) => {
-          // do what you want with data
           console.log(data);
           this.businesses = data.company
         })
