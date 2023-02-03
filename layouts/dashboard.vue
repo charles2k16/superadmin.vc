@@ -48,7 +48,7 @@
                     Insights
                   </c-list-item>
                 </nuxt-link>
-                 <nuxt-link to="/dashboard/cms">
+                <nuxt-link to="/dashboard/cms">
                   <c-list-item padding="20px 30px">
                     <c-list-icon icon="users-cog" />
                     CMS
@@ -60,16 +60,18 @@
                     Admin
                   </c-list-item>
                 </nuxt-link>
+                <nuxt-link to="/dashboard/plan">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="users" />
+                    Plan
+                  </c-list-item>
+                </nuxt-link>
                 <div @click="logout()">
-                   <c-list-item
-                  cursor="pointer"
-                  padding="20px 30px"
-                >
-                  <c-list-icon icon="sign-out-alt" />
-                  Logout
-                </c-list-item>
+                  <c-list-item cursor="pointer" padding="20px 30px">
+                    <c-list-icon icon="sign-out-alt" />
+                    Logout
+                  </c-list-item>
                 </div>
-               
               </c-list>
             </c-grid-item>
             <c-grid-item boxSixing="border-box" bg="gray.50" padding="20px">
@@ -97,25 +99,25 @@ import {
   CReset,
   CBox,
   CGrid,
-  CGridItem,
-} from "@chakra-ui/vue";
+  CGridItem
+} from '@chakra-ui/vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     CThemeProvider,
     CColorModeProvider,
     CReset,
     CBox,
     CGrid,
-    CGridItem,
+    CGridItem
   },
   methods: {
     async logout() {
-      console.log("logout");
+      console.log('logout');
       await this.$auth.logout();
-      this.$router.push("../");
-    },
-  },
+      this.$router.push('../');
+    }
+  }
 };
 </script>

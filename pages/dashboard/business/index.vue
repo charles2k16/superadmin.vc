@@ -39,7 +39,7 @@
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
           <template v-for="(business, ix) in filteredBusinesses">
-            <c-grid template-columns="repeat(7, 1fr)" :key="ix">
+            <c-grid template-columns="repeat(8, 1fr)">
               <c-box>
                 <c-text fontSize="11px" color="gray.500">Company name</c-text>
                 <c-text fontSize="13px">{{ business.name }}</c-text>
@@ -72,9 +72,24 @@
                 >
               </c-box>
               <c-box>
+                <c-text fontSize="11px" color="gray.500">Plan</c-text>
+                <c-text
+                  v-if="business.billing_subscriptions.length === 0"
+                  fontSize="13px"
+                  >{{ 'free' }} </c-text
+                ><c-text v-else fontSize="13px"
+                  >{{
+                    business.billing_subscriptions[0].planId === 2
+                      ? 'Pro'
+                      : 'Premium'
+                  }}
+                </c-text>
+              </c-box>
+              <c-box>
                 <c-text fontSize="11px" color="gray.500">Size</c-text>
                 <c-text fontSize="13px">{{ business.size }}</c-text>
               </c-box>
+
               <c-menu>
                 <c-menu-button
                   :aria-controls="ix"
@@ -151,7 +166,7 @@ export default {
      getBusiness(){
       this.$apollo.query({query : businessQuery})
         .then(({ data }) => {
-          console.log(data);
+          console.log(data.company.map((item)=> item));
           this.businesses = data.company
         })
     }
