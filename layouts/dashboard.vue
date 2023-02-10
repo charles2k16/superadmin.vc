@@ -36,6 +36,12 @@
                     Businesses
                   </c-list-item>
                 </nuxt-link>
+                <nuxt-link to="/dashboard/coupon">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="star" />
+                    Coupons
+                  </c-list-item>
+                </nuxt-link>
                 <nuxt-link to="/dashboard/user">
                   <c-list-item padding="20px 30px">
                     <c-list-icon icon="users" />

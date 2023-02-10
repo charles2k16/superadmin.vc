@@ -1,0 +1,12 @@
+query ListCoupons {
+  coupon {
+    recipient_company_id
+    company_id
+    created_at
+    discount
+    commission_payment_status
+    commission
+    status
+    code
+  }
+}
