@@ -101,6 +101,11 @@
                   <c-menu-item as="nuxt-link" :to="'./business/' + business.id"
                     >View</c-menu-item
                   >
+                  <c-menu-item
+                    as="nuxt-link"
+                    :to="'/dashboard/coupon/' + business.id"
+                    >Generate Coupon</c-menu-item
+                  >
                 </c-menu-list>
               </c-menu>
             </c-grid>
@@ -124,6 +129,7 @@ export default {
   layout: 'dashboard',
   data () {
       return {
+        isOpen:false,
          counts : {} ,
          businesses : [],
                search: ''
@@ -169,6 +175,11 @@ export default {
           console.log(data.company.map((item)=> item));
           this.businesses = data.company
         })
+    }, open() {
+      this.isOpen = true;
+    },
+    close() {
+      this.isOpen = false;
     }
   }
 }
