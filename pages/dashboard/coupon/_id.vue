@@ -77,9 +77,11 @@ export default {
     })
 
         this.coupon = coupon.data
-        alert("Coupon Generated Successfully")
+        alert("Coupon Generated Successfully and sent to Company Mail")
         this.commission = null
         this.discount = null
+
+        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
 
     } catch (error) {
         let e= {error}

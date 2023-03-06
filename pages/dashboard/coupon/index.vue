@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <c-heading marginBottom="20px">Coupons</c-heading>
-
     <c-box d="flex" align-items="center" mb="5">
       <c-input-group w="100" mr="5">
         <c-input-left-element
@@ -18,11 +17,14 @@
     <div>
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
-          <template v-for="(coupon, ix) in coupons">
-            <c-grid template-columns="repeat(8, 1fr)" :key="ix">
+          <template v-for="coupon in coupons">
+            <c-grid template-columns="repeat(9, 1fr)">
               <c-box>
                 <c-text fontSize="11px" color="gray.500">Parent Company</c-text>
-                <c-box v-for="business in filteredBusinesses">
+                <c-box
+                  v-for="business in filteredBusinesses"
+                  :key="business.id"
+                >
                   <c-box
                     v-if="business.id === coupon.company_id"
                     fontSize="13px"
@@ -35,9 +37,12 @@
                 <c-text fontSize="11px" color="gray.500"
                   >Recipient Company</c-text
                 >
-                <c-box v-for="business in filteredBusinesses">
+                <c-box
+                  v-for="business in filteredBusinesses"
+                  :key="business.id"
+                >
                   <c-box
-                    v-if="business.id === coupon.recipient_company_id"
+                    v-if="business.id === coupon.company_id"
                     fontSize="13px"
                   >
                     {{ business.name }}
@@ -96,14 +101,25 @@
                 </c-button>
               </c-box>
 
+              <c-box>
+                <c-button
+                  @click="sendToMail(coupon.code)"
+                  variant-color="blue"
+                  size="xs"
+                  mt="3"
+                >
+                  Send
+                </c-button>
+              </c-box>
+
               <!-- <c-menu>
                 <c-menu-button
-                  :aria-controls="ix"
+                  :aria-controls=""
                   class="actions"
                   right-icon="chevron-down"
                   >Actions</c-menu-button
                 >
-                <c-menu-list :id="ix">
+                <c-menu-list :id="">
                   <c-menu-item as="nuxt-link" :to="'./business/' + business.id"
                     >View</c-menu-item
                   >
@@ -115,7 +131,7 @@
                 </c-menu-list>
               </c-menu> -->
             </c-grid>
-            <c-divider :key="ix"></c-divider>
+            <c-divider></c-divider>
           </template>
         </c-box>
       </c-stack>
@@ -174,13 +190,29 @@ export default {
     async copyToClipboard(code) {
       try {
         await navigator.clipboard.writeText(String(code));
-        alert('Coupon Copied');
-        this.$toast({
-          title: Success,
-          description: message,
-          status: 'error',
-          duration: 5000
-        })
+        alert("Coupon copied successfully")
+        // this.$toast({
+        //   title: "Coupon Copied ",
+        //   description: "Coupon copied successfully",
+        //   status: 'success',
+        //   duration: 5000
+        // })
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+    },
+
+    async sendToMail(code) {
+      try {
+        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${code}/coupon/send`)
+        alert("Coupon successfully sent to Company Mail")
+
+        // this.$toast({
+        //   title: "Coupon Copied ",
+        //   description: "Coupon copied successfully",
+        //   status: 'success',
+        //   duration: 5000
+        // })
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
@@ -195,14 +227,13 @@ export default {
      getBusiness(){
       this.$apollo.query({query : businessQuery})
         .then(({ data }) => {
-          console.log(data.company);
           this.businesses = data.company
         })
     },
     getCoupons(){
       this.$apollo.query({query : couponQuery})
         .then(({ data }) => {
-          console.log(data);
+
           this.coupons = data.coupon
         })
     },
