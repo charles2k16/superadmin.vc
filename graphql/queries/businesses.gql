@@ -15,5 +15,14 @@ query ListCompanies {
     createdAt
     investmentEtaMetric
     investmentEtaValue
+    billing_subscriptions {
+      status
+      planId
+      companyId
+      priceId
+      currentEndDate
+      currentStartDate
+      stripeSubscriptionId
+    }
   }
 }
