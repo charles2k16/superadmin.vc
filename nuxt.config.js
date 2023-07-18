@@ -96,7 +96,7 @@ export default {
   axios: {
     baseURL:
       process.env.VUE_APP_SERVER_URL ||
-      'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
+      'https://server.vibrantcreator.com/v1/api'
   },
 
   auth: {
@@ -117,7 +117,7 @@ export default {
       default: {
         httpEndpoint:
           process.env.VUE_APP_GRAPHQL_HTTP ||
-          'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql',
+          'https://data.vibrantcreator.com/v1/graphql',
         query: {
           fetchPolicy: 'no-cache'
         }

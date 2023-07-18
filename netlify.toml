@@ -8,7 +8,7 @@
 
 # Branch Deploy context: all deploys that are not from a pull/merge request or
 # from the Production branch will inherit these settings.
-[context.branch-deploy]
+[context.branch-deploy] 
 [context.branch-deploy.environment]
   VUE_APP_GRAPHQL_HTTP = 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
   VUE_APP_GRAPHQL_WS = 'wss://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
