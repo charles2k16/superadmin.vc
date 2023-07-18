@@ -13,3 +13,7 @@
   VUE_APP_GRAPHQL_HTTP = 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
   VUE_APP_GRAPHQL_WS = 'wss://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
   VUE_APP_SERVER_URL = 'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
+
+[build]
+  command = "echo 'Skipping build step'"
+  publish = "dist"
