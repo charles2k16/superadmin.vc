@@ -48,33 +48,42 @@ export default {
   name: 'App',
   components: {},
   layout: 'dashboard',
-  async asyncData({app, params}){
+  async asyncData ({ app, params }) {
     const apolloClient = app.apolloProvider.defaultClient
     return {
-      businessId : params.id,
-      business : (await apolloClient.query({query : businessQuery, variables : {id : params.id}})).data.company_by_pk
+      businessId: params.id,
+      business: (await apolloClient.query({ query: businessQuery, variables: { id: params.id } })).data.company_by_pk
     }
   },
 
 
   data () {
     return {
-      counts : {},
-      business : {},
-      coupon : {},
-      businessId : null,
-      discount:null,
-      commission:null,
+      counts: {},
+      business: {},
+      coupon: {},
+      businessId: null,
+      discount: null,
+      commission: null,
     }
   },
   methods: {
-    async fetchSomething() {
-        try {
-            const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create',{
-        commission:this.commission,
-        discount:this.discount,
+    async fetchSomething () {
+
+      const payload = {
+        discount: this.discount,
+        commission: this.commission,
         companyId: this.businessId
-    })
+      }
+
+      console.log(payload)
+
+      try {
+        const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create', {
+          commission: this.commission,
+          discount: this.discount,
+          companyId: this.businessId
+        })
 
         this.coupon = coupon.data
         alert("Coupon Generated Successfully and sent to Company Mail")
@@ -83,12 +92,12 @@ export default {
 
         await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
 
-    } catch (error) {
-        let e= {error}
-        console.log(e,"hi")
-    }
+      } catch (error) {
+        let e = { error }
+        console.log(e, "hi")
+      }
 
-  }
+    }
   },
   computed: {
 
