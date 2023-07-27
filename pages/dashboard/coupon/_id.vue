@@ -70,7 +70,7 @@ export default {
   methods: {
     async fetchSomething() {
         try {
-            const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create',{
+            const coupon = await this.$axios.$post('https://server.vibrantcreator.com/v1/api/admin/coupon/create',{
         commission:this.commission,
         discount:this.discount,
         companyId: this.businessId
@@ -81,7 +81,7 @@ export default {
         this.commission = null
         this.discount = null
 
-        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
+        await this.$axios.$post(`https://server.vibrantcreator.com/v1/api/admin/${coupon.data}/coupon/send`)
 
     } catch (error) {
         let e= {error}

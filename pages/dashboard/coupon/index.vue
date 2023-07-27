@@ -15,7 +15,10 @@
     </c-box>
 
     <div>
-      <c-stack :spacing="5">
+      <p style="text-align: center;" v-if="coupons.length == 0">
+        No coupons created
+      </p>
+      <c-stack :spacing="5" v-else>
         <c-box :p="5" border-width="1px">
           <template v-for="coupon in coupons">
             <c-grid template-columns="repeat(9, 1fr)">
@@ -151,28 +154,27 @@ export default {
   components: {},
   layout: 'dashboard',
   data () {
-      return {
-        isOpen:false,
-         counts : {} ,
-         businesses : [],
-         coupons:[],
-               search: ''
-
+    return {
+      isOpen: false,
+      counts: {},
+      businesses: [],
+      coupons: [],
+      search: ''
     }
   },
-  fetch(){
+  fetch () {
     this.getCounts();
     this.getBusiness();
     this.getCoupons();
   },
   computed: {
-    filteredBusinesses(){
-      if(!this.search){
+    filteredBusinesses () {
+      if (!this.search) {
         return this.businesses;
       }
       return this.businesses.filter(business => business.name?.toLowerCase().includes(this.search?.toLowerCase()) || business.city?.toLowerCase().includes(this.search?.toLowerCase()) || business.country?.toLowerCase().includes(this.search?.toLowerCase()) || business.business_stage?.name?.toLowerCase().includes(this.search?.toLowerCase()))
     },
-    businessesToDownload(){
+    businessesToDownload () {
       return this.businesses.map(business => {
         return {
           name: business.name,
@@ -187,60 +189,47 @@ export default {
     }
   },
   methods: {
-    async copyToClipboard(code) {
+    async copyToClipboard (code) {
       try {
         await navigator.clipboard.writeText(String(code));
         alert("Coupon copied successfully")
-        // this.$toast({
-        //   title: "Coupon Copied ",
-        //   description: "Coupon copied successfully",
-        //   status: 'success',
-        //   duration: 5000
-        // })
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
     },
 
-    async sendToMail(code) {
+    async sendToMail (code) {
       try {
-        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${code}/coupon/send`)
+        await this.$axios.$post(`https://server.vibrantcreator.com/v1/api/admin/${code}/coupon/send`)
         alert("Coupon successfully sent to Company Mail")
-
-        // this.$toast({
-        //   title: "Coupon Copied ",
-        //   description: "Coupon copied successfully",
-        //   status: 'success',
-        //   duration: 5000
-        // })
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
     },
-    getCounts(){
-      this.$apollo.query({query : countQuery})
+    getCounts () {
+      this.$apollo.query({ query: countQuery })
         .then(({ data }) => {
-        //   console.log(data);
+          //   console.log(data);
           this.counts = data
         })
     },
-     getBusiness(){
-      this.$apollo.query({query : businessQuery})
+    getBusiness () {
+      this.$apollo.query({ query: businessQuery })
         .then(({ data }) => {
           this.businesses = data.company
         })
     },
-    getCoupons(){
-      this.$apollo.query({query : couponQuery})
+    getCoupons () {
+      this.$apollo.query({ query: couponQuery })
         .then(({ data }) => {
-
+console.log(data);
           this.coupons = data.coupon
         })
     },
-    open() {
+    open () {
       this.isOpen = true;
     },
-    close() {
+    close () {
       this.isOpen = false;
     }
   }

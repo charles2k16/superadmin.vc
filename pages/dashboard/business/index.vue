@@ -36,7 +36,8 @@
       />
     </c-box>
     <div>
-      <c-stack :spacing="5">
+      <Loader v-if="loading" />
+      <c-stack :spacing="5" v-else>
         <c-box :p="5" border-width="1px">
           <template v-for="(business, ix) in filteredBusinesses">
             <c-grid template-columns="repeat(8, 1fr)">
@@ -128,26 +129,26 @@ export default {
   components: {},
   layout: 'dashboard',
   data () {
-      return {
-        isOpen:false,
-         counts : {} ,
-         businesses : [],
-               search: ''
-
+    return {
+      isOpen: false,
+      counts: {},
+      businesses: [],
+      search: '',
+      loading: true,
     }
   },
-  fetch(){
+  fetch () {
     this.getCounts();
     this.getBusiness();
   },
   computed: {
-    filteredBusinesses(){
-      if(!this.search){
+    filteredBusinesses () {
+      if (!this.search) {
         return this.businesses;
       }
       return this.businesses.filter(business => business.name?.toLowerCase().includes(this.search?.toLowerCase()) || business.city?.toLowerCase().includes(this.search?.toLowerCase()) || business.country?.toLowerCase().includes(this.search?.toLowerCase()) || business.business_stage?.name?.toLowerCase().includes(this.search?.toLowerCase()))
     },
-    businessesToDownload(){
+    businessesToDownload () {
       return this.businesses.map(business => {
         return {
           name: business.name,
@@ -162,23 +163,22 @@ export default {
     }
   },
   methods: {
-    getCounts(){
-      this.$apollo.query({query : countQuery})
+    getCounts () {
+      this.$apollo.query({ query: countQuery })
         .then(({ data }) => {
-          console.log(data);
           this.counts = data
         })
     },
-     getBusiness(){
-      this.$apollo.query({query : businessQuery})
+    getBusiness () {
+      this.$apollo.query({ query: businessQuery })
         .then(({ data }) => {
-          console.log(data.company.map((item)=> item));
           this.businesses = data.company
+          this.loading = false;
         })
-    }, open() {
+    }, open () {
       this.isOpen = true;
     },
-    close() {
+    close () {
       this.isOpen = false;
     }
   }

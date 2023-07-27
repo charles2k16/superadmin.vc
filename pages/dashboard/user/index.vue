@@ -39,7 +39,8 @@
       />
     </c-box>
     <div>
-      <c-stack :spacing="5">
+      <Loader v-if="loading" />
+      <c-stack :spacing="5" v-else>
         <c-box :p="5" border-width="1px">
           <template v-for="(user, index) in filteredUsers">
             <c-grid template-columns="100px repeat(4, 1fr) 100px" :key="index">
@@ -77,7 +78,7 @@
                 <c-text fontSize="13px">
                   {{ user.teams.length ? '' : 'Pending Invites' }}
                   <ul>
-                    <li v-for="(team, index) in user.teams" :key="index">
+                    <li v-for="(team, idx) in user.teams" :key="idx">
                       {{ team.company.name }}
                     </li>
                   </ul>
@@ -130,14 +131,13 @@ import toggleDeleteUser from "~/graphql/mutations/toggleDeleteUser.gql";
 
 export default {
   name: 'App',
-  components: {
-  },
   layout: 'dashboard',
   data () {
     return {
       counts : {},
       users : [],
-      search: ''
+      search: '',
+      loading: true,
     }
   },
   fetch(){
@@ -168,17 +168,18 @@ export default {
     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
-          // do what you want with data
-          console.log(data);
+
           this.counts = data
         })
     },
      getUsers(){
       this.$apollo.query({query : userQuery})
         .then(({ data }) => {
-          // do what you want with data
-          console.log(data);
+
           this.users = data.user
+          this.loading = false;
+        }).catch((error)=>{
+          console.log(error);
         })
     },
     toggleBlock(id,isBlocked){
