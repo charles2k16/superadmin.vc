@@ -2,7 +2,7 @@
   <div class="container">
     <c-heading marginBottom="20px">Statistics</c-heading>
 
-    <c-stat-group>
+    <c-stat-group class='statHeader'>
       <c-stat>
         <c-stat-label>Total Registered Businesses</c-stat-label>
         <c-stat-number>{{
@@ -110,13 +110,13 @@
         </c-stat-helper-text>
       </c-stat>
     </c-stat-group>
-    <highchart :options="dailychartOptions" />
-    <highchart :options="weeklychartOptions" />
-    <highchart :options="monthlychartOptions" />
+    <highchart :options="dailychartOptions" class='chart-container' />
+    <highchart :options="weeklychartOptions" class='chart-container'/>
+    <highchart :options="monthlychartOptions" class='chart-container'/>
 
-    <highchart :options="dailychartActiveOptions" />
-    <highchart :options="weeklychartActiveOptions" />
-    <highchart :options="monthlychartActiveOptions" />
+    <highchart :options="dailychartActiveOptions" class='chart-container'/>
+    <highchart :options="weeklychartActiveOptions" class='chart-container'/>
+    <highchart :options="monthlychartActiveOptions" class='chart-container'/>
   </div>
 </template>
 
@@ -686,3 +686,19 @@ export default {
   }
 }
 </script>
+
+<style>
+@media (max-width: 768px) {
+  .container {
+    width: 100% !important;
+  }
+  .chart-container {
+    width: 100% !important;
+  }
+  .statHeader{
+    font-size: 1.5rem !important;
+    display: block !important;
+
+  }
+}
+</style>

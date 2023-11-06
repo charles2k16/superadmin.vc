@@ -21,14 +21,18 @@
     "ant-design-vue": "^1.7.7",
     "caniuse-lite": "^1.0.30001515",
     "core-js": "^3.15.1",
+    "datatables.net-dt": "^1.13.7",
     "graphql-tag": "^2.12.5",
     "highcharts": "^9.1.2",
+    "jquery": "^3.7.1",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "nuxt": "^2.15.7",
     "nuxt-highcharts": "^1.0.8",
+    "vue-good-table": "^2.21.11",
     "vue-json-csv": "^1.2.12",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "^3.0.6",
+    "vue2-datepicker": "^3.11.1"
   },
   "devDependencies": {
     "@nuxtjs/moment": "^1.6.1",

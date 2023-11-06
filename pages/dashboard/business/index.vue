@@ -3,24 +3,63 @@
     <c-heading marginBottom="20px">Business</c-heading>
     <c-stat marginBottom="20px">
       <c-stat-label>Total Registered Businesses</c-stat-label>
-      <c-stat-number>{{
-        counts.company_aggregate ? counts.company_aggregate.aggregate.count : 0
-      }}</c-stat-number>
+      <c-stat-number>{{counts.company_aggregate ? counts.company_aggregate.aggregate.count : 0 }}</c-stat-number>
       <c-stat-helper-text>
         <c-stat-arrow type="increase" />0.0%
       </c-stat-helper-text>
     </c-stat>
-    <c-box d="flex" align-items="center" mb="5">
-      <c-input-group w="100" mr="5">
+    <div class='filters'>
+      <c-input-group  mr="5">
         <c-input-left-element
           ><i class="fa fa-search"></i
         ></c-input-left-element>
         <c-input
           v-model="search"
           type="text"
-          placeholder="Search business by name, email"
+          class='search'
+          placeholder="Search business by name,stage,objective,location,plan,size and channel"
         />
       </c-input-group>
+      <c-select  class='search' mr="5" v-model="size"  placeholder="Filter by size">
+        <option value="1-2">1-2</option>
+        <option value="3-5">3-5</option>
+        <option value="5+">5+</option>
+      </c-select>
+      <c-select  class='search' mr="5" v-model="stage"  placeholder="Filter by stage">
+        <option value="stage-1">Stage 1</option>
+        <option value="stage-2">Stage 2</option>
+        <option value="stage-3">Stage 3</option>
+      </c-select>
+      <date-picker v-model="dateRange" range class='search'></date-picker>
+      <download-csv
+        v-show="false"
+        ref="downloadCSV2"
+        :data="businessesToDownload"
+        :name="`VC-BUSINESSES-${new Date()}.csv`"
+      />
+    </div>
+
+    <div class='filters'>
+      <c-select  class='search' mr="5" v-model="selectedContinent"  placeholder="Filter by continent" @change='changeContinent()'>
+        <option :value="ct.name" v-for='ct in continents' :key='ct.id'>
+          {{ct.name}}
+        </option>
+      </c-select>
+      <c-select  class='search' mr="5" v-model="location"  placeholder="Filter by country" v-show='selectedContinent' @change='filterCountryHandler()'>
+        <option :value="country" v-for='country in countries' :key='country.id'>
+          {{country}}
+        </option>
+      </c-select>
+      <c-select  class='search' mr="5" v-model="channel"  placeholder="Filter by channel">
+        <option value="channel-1">Channel 1</option>
+        <option value="channel-2">Channel 2</option>
+        <option value="channel-3">Channel 3</option>
+      </c-select>
+      <c-select  class='search' mr="5" v-model="plan" @change='filterHandlerByPlan()'  placeholder="Filter by subscription">
+        <option value="freemium">Freemium</option>
+        <option value="pro">Pro</option>
+        <option value="premium">Premium</option>
+      </c-select>
       <c-button
         @click="$refs.downloadCSV2.$el.click()"
         variant-color="blue"
@@ -28,75 +67,39 @@
       >
         Export
       </c-button>
-      <download-csv
-        v-show="false"
-        ref="downloadCSV2"
-        :data="businessesToDownload"
-        :name="`VC-BUSINESSES-${new Date()}.csv`"
-      />
-    </c-box>
-    <div>
-      <c-stack :spacing="5">
-        <c-box :p="5" border-width="1px">
-          <template v-for="(business, ix) in filteredBusinesses">
-            <c-grid template-columns="repeat(8, 1fr)">
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Company name</c-text>
-                <c-text fontSize="13px">{{ business.name }}</c-text>
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Stage</c-text>
-                <c-text fontSize="13px">{{
-                  business.business_stage.name
-                }}</c-text>
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Objective</c-text>
-                <c-text fontSize="13px">{{
-                  business.business_objective.description
-                }}</c-text>
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Location</c-text>
-                <c-text fontSize="13px"
-                  >{{ business.city }}, {{ business.country }}</c-text
-                >
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500"
-                  >Investment Ready</c-text
-                >
-                <c-text fontSize="13px"
-                  >{{ business.investmentEtaValue }}
-                  {{ business.investmentEtaMetric }}</c-text
-                >
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Plan</c-text>
-                <c-text
-                  v-if="business.billing_subscriptions.length === 0"
-                  fontSize="13px"
-                  >{{ 'free' }} </c-text
-                ><c-text v-else fontSize="13px"
-                  >{{
-                    business.billing_subscriptions[0].planId === 2
-                      ? 'Pro'
-                      : 'Premium'
-                  }}
-                </c-text>
-              </c-box>
-              <c-box>
-                <c-text fontSize="11px" color="gray.500">Size</c-text>
-                <c-text fontSize="13px">{{ business.size }}</c-text>
-              </c-box>
+    </div>
 
+    <div class='tableWrapper'>
+      <table class='table' id="datatable">
+        <thead>
+          <tr>
+            <th>Company name</th>
+            <th>Stage</th>
+            <th>Objective</th>
+            <th>Location</th>
+            <th>Investment Ready</th>
+            <th>Plan</th>
+            <th>Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(business, ix) in filteredBusinesses" :key="business.id">
+            <td>{{ business.name }}</td>
+            <td>{{ business.business_stage.name }}</td>
+            <td>{{ business.business_objective.description }}</td>
+            <td>{{ business.city }}, {{ business.country }}</td>
+            <td>{{ business.investmentEtaValue }} {{ business.investmentEtaMetric }}</td>
+            <td v-if="business.billing_subscriptions.length === 0">{{ 'free' }} </td>
+            <td v-else>{{ business.billing_subscriptions[0].planId === 2 ? 'Pro' : 'Premium' }}</td>
+            <td>{{ business.size }}</td>
+            <td>
               <c-menu>
                 <c-menu-button
                   :aria-controls="ix"
                   class="actions"
                   right-icon="chevron-down"
-                  >Actions</c-menu-button
-                >
+                  >Actions</c-menu-button>
                 <c-menu-list :id="ix">
                   <c-menu-item as="nuxt-link" :to="'./business/' + business.id"
                     >View</c-menu-item
@@ -108,11 +111,10 @@
                   >
                 </c-menu-list>
               </c-menu>
-            </c-grid>
-            <c-divider :key="business.id"></c-divider>
-          </template>
-        </c-box>
-      </c-stack>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -121,20 +123,206 @@
 
 import countQuery from "~/graphql/queries/counts.gql";
 import businessQuery from "~/graphql/queries/businesses.gql";
-
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import "jquery/dist/jquery.min.js";
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import $ from "jquery";
 
 export default {
   name: 'App',
-  components: {},
+  components: {DatePicker},
   layout: 'dashboard',
   data () {
       return {
         isOpen:false,
          counts : {} ,
          businesses : [],
-               search: ''
-
-    }
+         search: '',
+         size: '',
+          stage: '',
+          channel: '',
+        plan: null,
+        location: '',
+        continents: [
+          { name: 'Europe', value: 'europe', countries: [
+              'Albania',
+              'Austria',
+              'Belgium',
+              'Bulgaria',
+              'Croatia',
+              'Cyprus',
+              'Czech Republic',
+              'Denmark',
+              'Estonia',
+              'Finland',
+              'France',
+              'Germany',
+              'Greece',
+              'Hungary',
+              'Iceland',
+              'Ireland',
+              'Italy',
+              'Latvia',
+              'Lithuania',
+              'Luxembourg',
+              'Malta',
+              'Netherlands',
+              'Norway',
+              'Poland',
+              'Portugal',
+              'Romania',
+              'Slovakia',
+              'Slovenia',
+              'Spain',
+              'Sweden',
+              'Switzerland',
+              'United Kingdom',
+            ] },
+          { name: 'Asia', value: 'asia', countries: [
+              'Afghanistan',
+              'Armenia',
+              'Azerbaijan',
+              'Bahrain',
+              'Bangladesh',
+              'Bhutan',
+              'Brunei',
+              'Cambodia',
+              'China',
+              'India',
+              'Indonesia',
+              'Iran',
+              'Iraq',
+              'Israel',
+              'Japan',
+              'Jordan',
+              'Kazakhstan',
+              'Kuwait',
+              'Kyrgyzstan',
+              'Laos',
+              'Lebanon',
+              'Malaysia',
+              'Maldives',
+              'Mongolia',
+              'Myanmar',
+              'Nepal',
+              'North Korea',
+              'Oman',
+              'Pakistan',
+              'Palestine',
+              'Philippines',
+              'Qatar',
+              'Saudi Arabia',
+              'Singapore',
+              'South Korea',
+              'Sri Lanka',
+              'Syria',
+              'Taiwan',
+              'Tajikistan',
+              'Thailand',
+              'Timor-Leste',
+              'Turkmenistan',
+              'United Arab Emirates',
+              'Uzbekistan',
+              'Vietnam',
+              'Yemen',
+            ] },
+          { name: 'Africa', value: 'africa', countries: [
+              'Algeria',
+              'Angola',
+              'Benin',
+              'Botswana',
+              'Burkina Faso',
+              'Burundi',
+              'Cabo Verde',
+              'Cameroon',
+              'Central African Republic',
+              'Chad',
+              'Comoros',
+              'Congo',
+              'Côte d\'Ivoire',
+              'Djibouti',
+              'Egypt',
+              'Equatorial Guinea',
+              'Eritrea',
+              'Eswatini',
+              'Ethiopia',
+              'Gabon',
+              'Gambia',
+              'Ghana',
+              'Guinea',
+              'Guinea-Bissau',
+              'Kenya',
+              'Lesotho',
+              'Liberia',
+              'Libya',
+              'Madagascar',
+              'Malawi',
+              'Mali',
+              'Mauritania',
+              'Mauritius',
+              'Morocco',
+              'Mozambique',
+              'Namibia',
+              'Niger',
+              'Nigeria',
+              'Rwanda',
+              'Sao Tome and Principe',
+              'Senegal',
+              'Seychelles',
+              'Sierra Leone',
+              'Somalia',
+              'South Africa',
+              'South Sudan',
+              'Sudan',
+              'Tanzania',
+              'Togo',
+              'Tunisia',
+              'Uganda',
+              'Zambia',
+              'Zimbabwe',
+            ] },
+          { name: 'North America', value: 'north-america', countries: [
+              'Canada',
+              'United States',
+              'Mexico',
+            ] },
+          { name: 'South America', value: 'south-america', countries: [
+              'Argentina',
+              'Bolivia',
+              'Brazil',
+              'Chile',
+              'Colombia',
+              'Ecuador',
+              'Guyana',
+              'Paraguay',
+              'Peru',
+              'Suriname',
+              'Uruguay',
+              'Venezuela',
+            ] },
+          { name: 'Oceania', value: 'oceania', countries: [
+              'Australia',
+              'Fiji',
+              'Kiribati',
+              'Marshall Islands',
+              'Micronesia',
+              'Nauru',
+              'New Zealand',
+              'Palau',
+              'Papua New Guinea',
+              'Samoa',
+              'Solomon Islands',
+              'Tonga',
+              'Tuvalu',
+              'Vanuatu',
+            ] },
+        ],
+        countries: [],
+        selectedContinent: null,
+        dateRange: null,
+      }
   },
   fetch(){
     this.getCounts();
@@ -146,6 +334,12 @@ export default {
         return this.businesses;
       }
       return this.businesses.filter(business => business.name?.toLowerCase().includes(this.search?.toLowerCase()) || business.city?.toLowerCase().includes(this.search?.toLowerCase()) || business.country?.toLowerCase().includes(this.search?.toLowerCase()) || business.business_stage?.name?.toLowerCase().includes(this.search?.toLowerCase()))
+    },
+    filtereBusinessByLocation(){
+      if(!this.location){
+        return this.businesses;
+      }
+      return this.businesses.filter(business => business.country?.toLowerCase().includes(this.location?.toLowerCase()))
     },
     businessesToDownload(){
       return this.businesses.map(business => {
@@ -159,10 +353,10 @@ export default {
           createdAt: business.createdAt,
         }
       })
-    }
+    },
   },
   methods: {
-    getCounts(){
+     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
           console.log(data);
@@ -174,13 +368,113 @@ export default {
         .then(({ data }) => {
           console.log(data.company.map((item)=> item));
           this.businesses = data.company
+          $("#datatable").DataTable({
+            responsive: true
+          });
         })
-    }, open() {
+    },
+    changeContinent(){
+      if(this.selectedContinent){
+        this.continents.forEach(continent => {
+          if(continent.name === this.selectedContinent){
+            this.countries = continent.countries;
+          }
+        })
+      }
+    },
+    filterHandlerByPlan() {
+      if (this.plan) {
+        return this.filteredBusinesses.filter(business => business.plan?.name === this.plan);
+      }
+      return this.filteredBusinesses;
+    },
+    filterCountryHandler(){
+      if(this.location){
+        console.log(this.location, 'location');
+        this.filterHandlerByPlan().filter(business => business.country === this.location);
+      }
+      return this.filtereBusinessByLocation
+    },
+     open() {
       this.isOpen = true;
     },
-    close() {
+     close() {
       this.isOpen = false;
     }
-  }
+  },
+  watch: {
+    filteredBusinesses(val){
+      $("#datatable").DataTable().destroy();
+      this.$nextTick(function () {
+        $("#datatable").DataTable({
+          searching: false,
+          lengthChange: false,
+          responsive: true,
+        });
+      });
+    },
+  },
 }
 </script>
+
+<style>
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.search{
+    width: 300px;
+  }
+.table{
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+}
+.table thead{
+  background-color: #f5f5f5;
+}
+
+.table tbody tr:hover{
+  background-color: #f5f5f5;
+}
+.table.dataTable{
+  border-collapse: collapse;
+}
+@media (max-width: 768px){
+  .search{
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .filters{
+    flex-wrap: wrap;
+  }
+  .tableWrapper{
+    clear: both;
+    max-width: 100%;
+    overflow-x: auto;
+    position: relative;
+  }
+  .table{
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    position: relative;
+  }
+  .table thead {
+    width: 100%;
+  }
+  .table thead tr th{
+    width: 100%;
+    font-size: 12px;
+  }
+  .table tbody tr td{
+    font-size: 12px;
+  }
+
+}
+</style>
