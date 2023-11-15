@@ -1,0 +1,7 @@
+query ListBusinessStages {
+  business_stage{
+    id
+    name
+  }
+
+}
