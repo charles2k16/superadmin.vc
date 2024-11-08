@@ -1,0 +1,9 @@
+query CompanyCoupons($companyId: Int!) {
+  coupon(where: {company_id: {_eq: $companyId}}) {
+    status
+    code
+    commission
+    discount
+    created_at
+  }
+}
