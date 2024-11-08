@@ -108,3 +108,8 @@ export default {
   }
 }
 </script>
+<style>
+.container{
+  font-family: Montserrat,sans-serif;
+}
+</style>
