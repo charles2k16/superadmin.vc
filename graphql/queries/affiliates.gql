@@ -1,0 +1,25 @@
+query getAllAffiliates {
+  company(where: {affiliateStatus: {_in: [REQUESTED, AFFILIATE]}}, order_by: {affiliateRequestTime: desc_nulls_last, name: asc}) {
+    id
+    name
+    city
+    affiliateStatus
+    size
+    country
+    coverImage
+    contactEmail
+    business_stage{
+      name
+      __typename
+    }
+    business_objective{
+      description
+    }
+    investmentEtaValue
+    investmentEtaMetric
+    billing_subscriptions{
+      id
+      planId
+    }
+  }
+}

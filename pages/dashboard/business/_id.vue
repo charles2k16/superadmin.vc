@@ -59,6 +59,39 @@
           <br />
         </c-box>
       </c-grid>
+      <c-box :p="5" mt="20px" border-width="1px">
+        <template v-for="(coupon, index) in company_coupons">
+          <c-grid template-columns="repeat(5, 1fr)" gap="10px" mt="20px" >
+            <c-box>
+              <c-text fontSize="11px" color="gray.500">Size</c-text>
+              <c-text fontSize="13px">{{coupon.code}}</c-text>
+            </c-box>
+
+            <c-box>
+              <c-text fontSize="11px" color="gray.500">Discount</c-text>
+              <c-text fontSize="13px">{{coupon.discount}}</c-text>
+            </c-box>
+
+
+            <c-box>
+              <c-text fontSize="11px" color="gray.500">Commission</c-text>
+              <c-text fontSize="13px">{{coupon.commission}}</c-text>
+            </c-box>
+
+
+            <c-box>
+              <c-text fontSize="11px" color="gray.500">Status</c-text>
+              <c-text fontSize="13px">{{coupon.status}}</c-text>
+            </c-box>
+
+
+            <c-box>
+              <c-text fontSize="11px" color="gray.500">Date</c-text>
+              <c-text fontSize="13px">{{coupon.created_at}}</c-text>
+            </c-box>
+          </c-grid>
+        </template>
+      </c-box>
     </div>
   </div>
 </template>
@@ -67,6 +100,7 @@
 
 import countQuery from "~/graphql/queries/counts.gql";
 import businessQuery from "~/graphql/queries/business.gql";
+import companyCoupons from "~/graphql/queries/company_coupons.graphql"
 
 export default {
   name: 'App',
@@ -83,7 +117,8 @@ export default {
     return {
       counts : {},
       business : {},
-      businessId : null
+      businessId : null,
+      company_coupons: null
     }
   },
   methods: {
@@ -94,9 +129,20 @@ export default {
           console.log(data);
           this.counts = data
         })
+    },
+
+    getCompanyCoupons(){
+      const companyId = this.business.id
+      this.$apollo.query({query: companyCoupons, variables: {companyId}})
+        .then(({ data }) => {
+          console.log( data );
+          this.company_coupons = data.coupon
+        })
     }
   },
-  computed: {
+
+  mounted() {
+    this.getCompanyCoupons()
   }
 }
 </script>

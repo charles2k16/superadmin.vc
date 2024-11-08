@@ -1,0 +1,5 @@
+mutation SetCompanyAsAffiliate($companyId: Int!) {
+  update_company(where: {id: {_eq: $companyId}}, _set: {affiliateStatus: AFFILIATE}) {
+    affected_rows
+  }
+}
