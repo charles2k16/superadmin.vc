@@ -2,14 +2,14 @@
 # Branches settings in the UI will inherit these settings.
 [context.production]
 [context.production.environment]
-  VUE_APP_GRAPHQL_HTTP = 'https://data.vibrantcreator.com/v1/graphql'
-  VUE_APP_GRAPHQL_WS = 'wss://data.vibrantcreator.com/v1/graphql'
-  VUE_APP_SERVER_URL = 'https://server.vibrantcreator.com/v1/api'
+  NUXT_ENV_GRAPHQL_HTTP = 'https://data.vibrantcreator.com/v1/graphql'
+  NUXT_ENV_GRAPHQL_WS = 'wss://data.vibrantcreator.com/v1/graphql'
+  NUXT_ENV_SERVER_URL = 'https://server.vibrantcreator.com/v1/api'
+  NUXT_ENV_URL='https://www.vibrantcreator.com'
 
-# Branch Deploy context: all deploys that are not from a pull/merge request or
-# from the Production branch will inherit these settings.
 [context.branch-deploy]
 [context.branch-deploy.environment]
-  VUE_APP_GRAPHQL_HTTP = 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
-  VUE_APP_GRAPHQL_WS = 'wss://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
-  VUE_APP_SERVER_URL = 'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
+  NUXT_ENV_GRAPHQL_HTTP = 'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
+  NUXT_ENV_GRAPHQL_WS = 'wss://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql'
+  NUXT_ENV_SERVER_URL = 'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
+  NUXT_ENV_URL='http://localhost:4000'
