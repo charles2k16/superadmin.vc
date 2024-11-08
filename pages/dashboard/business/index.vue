@@ -122,7 +122,6 @@
 import countQuery from "~/graphql/queries/counts.gql";
 import businessQuery from "~/graphql/queries/businesses.gql";
 
-
 export default {
   name: 'App',
   components: {},
@@ -130,10 +129,16 @@ export default {
   data () {
       return {
         isOpen:false,
-         counts : {} ,
-         businesses : [],
-               search: ''
-
+        counts : {} ,
+        businesses : [],
+        search: '',
+        columns: ['name'],
+        query: {
+          page: 1,
+          rowsPerPage: 10,
+          sort: [{ column: 'Name', type: 'asc' }],
+          filters: {}
+        }
     }
   },
   fetch(){
@@ -156,7 +161,7 @@ export default {
           country: business.country,
           objective: business.business_objective?.description,
           investmentReady: `${business.investmentEtaValue} ${business.investmentEtaMetric}`,
-          createdAt: business.createdAt,
+          created_at: business.created_at,
         }
       })
     }
