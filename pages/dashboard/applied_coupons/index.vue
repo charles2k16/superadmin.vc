@@ -90,8 +90,11 @@ export default {
       this.modalVisible = modalVisible;
     },
     async confirmPayment(){
+      const payload = {
+        receiptUrl: this.paymentInvoice
+      }
       const earningId = this.selectedItem.id
-      await this.$axios.$post(`/admin/${earningId}/commission`)
+      await this.$axios.$post(`/admin/${earningId}/commission`, payload)
         .then((res) => {
           console.log(res);
           this.success = true;
