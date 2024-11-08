@@ -1,0 +1,5 @@
+mutation SuspendCompanyAsAffiliate($companyId: Int!){
+  update_company(where: {id: {_eq: $companyId}}, _set: {affiliateStatus: REQUESTED}){
+    affected_rows
+  }
+}
