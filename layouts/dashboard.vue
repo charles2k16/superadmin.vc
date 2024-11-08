@@ -23,7 +23,7 @@
           </c-box>
           <c-grid h="calc(100vh - 50px)" w="100vw" template-columns="200px 1fr">
             <c-grid-item bg="gray.500">
-              <c-list color="white" position="fixed" spacing="3">
+              <c-list style="color: white !important" position="fixed" spacing="3">
                 <nuxt-link to="/dashboard">
                   <c-list-item padding="20px 30px">
                     <c-list-icon icon="chart-bar" />
@@ -36,10 +36,22 @@
                     Businesses
                   </c-list-item>
                 </nuxt-link>
+                <nuxt-link to="/dashboard/affiliates">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="building" />
+                    Affiliates
+                  </c-list-item>
+                </nuxt-link>
                 <nuxt-link to="/dashboard/coupon">
                   <c-list-item padding="20px 30px">
                     <c-list-icon icon="star" />
                     Coupons
+                  </c-list-item>
+                </nuxt-link>
+                <nuxt-link to="/dashboard/applied_coupons">
+                  <c-list-item padding="20px 30px">
+                    <c-list-icon icon="star" />
+                    Applied Coupons
                   </c-list-item>
                 </nuxt-link>
                 <nuxt-link to="/dashboard/user">
@@ -127,3 +139,8 @@ export default {
   }
 };
 </script>
+<style>
+.container {
+  font-family: Montserrat, Serif;
+}
+</style>
