@@ -1,10 +1,11 @@
 query ListCompanies {
-  company {
+  company(order_by: {createdAt: desc}) {
     business_stage {
       name
     }
     city
     country
+    contactEmail
     id
     name
     size
