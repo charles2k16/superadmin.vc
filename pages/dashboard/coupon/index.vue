@@ -147,7 +147,7 @@ import couponQuery from "~/graphql/queries/coupons.gql";
 
 
 export default {
-  name: 'App',
+  name: 'Coupons',
   components: {},
   layout: 'dashboard',
   data () {

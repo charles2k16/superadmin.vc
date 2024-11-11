@@ -29,6 +29,16 @@
                 placeholder="Commission"
               /> </c-form-control
           ></c-box>
+
+          <c-box>
+            <c-form-control>
+              <c-form-label for="commission">Custom Name</c-form-label>
+              <c-input
+                id="commission"
+                v-model="customAlias"
+                placeholder="Custom Identifier"
+              /> </c-form-control
+          ></c-box>
         </c-grid>
         <c-box> </c-box>
       </c-box>
@@ -59,38 +69,32 @@ export default {
 
   data () {
     return {
-      counts: {},
-      business: {},
-      coupon: {},
-      businessId: null,
-      discount: null,
-      commission: null,
+      counts : {},
+      business : {},
+      coupon : {},
+      customAlias: '',
+      businessId : null,
+      discount:null,
+      commission:null,
     }
   },
   methods: {
-    async fetchSomething () {
+    async fetchSomething() {
+        try {
+            const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create',{
+            commission:this.commission,
+            discount:this.discount,
+            companyId: [this.businessId],
+            customAlias: this.customAlias
 
-      const payload = {
-        discount: this.discount,
-        commission: this.commission,
-        companyId: this.businessId
-      }
-
-      console.log(payload)
-
-      try {
-        const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create', {
-          commission: this.commission,
-          discount: this.discount,
-          companyId: this.businessId
-        })
+    })
 
         this.coupon = coupon.data
         alert("Coupon Generated Successfully and sent to Company Mail")
         this.commission = null
         this.discount = null
 
-        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
+        // await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
 
       } catch (error) {
         let e = { error }

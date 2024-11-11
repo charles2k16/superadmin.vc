@@ -42,7 +42,7 @@
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
           <template v-for="(user, index) in filteredUsers">
-            <c-grid template-columns="100px repeat(4, 1fr) 100px" :key="index">
+            <c-grid template-columns="100px repeat(4, 1fr) 100px">
               <c-box>
                 <c-avatar
                   :name="
