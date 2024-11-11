@@ -24,8 +24,5 @@ query ListCompanies {
       currentStartDate
       stripeSubscriptionId
     }
-    teams {
-      id
-    }
   }
 }

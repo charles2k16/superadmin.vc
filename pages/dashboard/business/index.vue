@@ -28,9 +28,11 @@
         v-model="size"
         placeholder="Filter by size"
       >
-        <option value="1-2">1-2</option>
-        <option value="3-5">3-5</option>
-        <option value="5+">5+</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="2-10">2-10</option>
+        <option value="11-50">11-50</option>
+        <option value="51-200">51-200</option>
       </c-select>
       <c-select
         class="search"
@@ -38,11 +40,22 @@
         v-model="stage"
         placeholder="Filter by stage"
       >
-        <option value="stage-1">Stage 1</option>
-        <option value="stage-2">Stage 2</option>
-        <option value="stage-3">Stage 3</option>
+        <option value="Idea stage">Idea stage</option>
+        <option value="MVP Stage (Minimum Variable Product)"
+          >MVP Stage (Minimum Variable Product)</option
+        >
+        <option value="Operational Stage">Operational Stage</option>
+        <option value="Scaling Stage">Scaling Stage</option>
+        <option value="Testing Stage">Testing Stage</option>
+        <option value="Validation Stage">Validation Stage</option>
+        <option value="Fully established stage">Fully established stage</option>
       </c-select>
-      <date-picker v-model="dateRange" range class="search"></date-picker>
+      <date-picker
+        v-model="dateRange"
+        range
+        class="search"
+        placeholder="Filter by date"
+      ></date-picker>
       <download-csv
         v-show="false"
         ref="downloadCSV2"
@@ -78,29 +91,31 @@
       <c-select
         class="search"
         mr="5"
-        v-model="channel"
-        placeholder="Filter by channel"
-      >
-        <option value="channel-1">Channel 1</option>
-        <option value="channel-2">Channel 2</option>
-        <option value="channel-3">Channel 3</option>
-      </c-select>
-      <c-select
-        class="search"
-        mr="5"
         v-model="plan"
         @change="filterHandlerByPlan()"
         placeholder="Filter by subscription"
       >
-        <option value="freemium">Freemium</option>
+        <option value="free">Freemium</option>
         <option value="pro">Pro</option>
         <option value="premium">Premium</option>
       </c-select>
       <c-button
-        @click="$refs.downloadCSV2.$el.click()"
-        variant-color="blue"
+        v-show="
+          search ||
+            size ||
+            stage ||
+            dateRange ||
+            selectedContinent ||
+            location ||
+            plan
+        "
+        @click="resetFilters"
+        variant-color="gray"
         size="sm"
       >
+        Reset Filters
+      </c-button>
+      <c-button @click="exportBusinesses" variant-color="blue" size="sm">
         Export
       </c-button>
     </div>
@@ -116,6 +131,7 @@
             <th>Investment Ready</th>
             <th>Plan</th>
             <th>Size</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -140,6 +156,8 @@
               }}
             </td>
             <td>{{ business.size }}</td>
+            <td>{{ business.createdAt }}</td>
+
             <td>
               <c-menu>
                 <c-menu-button
@@ -171,12 +189,15 @@
 
 import countQuery from "~/graphql/queries/counts.gql";
 import businessQuery from "~/graphql/queries/businesses.gql";
+import businessStage from "~/graphql/queries/business_stages.gql";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import "jquery/dist/jquery.min.js";
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
+import * as XLSX from 'xlsx';
+import FileSaver from 'file-saver';
 
 export default {
   name: 'App',
@@ -187,6 +208,7 @@ export default {
         isOpen:false,
          counts : {} ,
          businesses : [],
+         businessStage: [],
          search: '',
          size: '',
           stage: '',
@@ -375,13 +397,45 @@ export default {
   fetch () {
     this.getCounts();
     this.getBusiness();
+    this.getBusinessStage();
   },
   computed: {
-    filteredBusinesses () {
-      if (!this.search) {
-        return this.businesses;
-      }
-      return this.businesses.filter(business => business.name?.toLowerCase().includes(this.search?.toLowerCase()) || business.city?.toLowerCase().includes(this.search?.toLowerCase()) || business.country?.toLowerCase().includes(this.search?.toLowerCase()) || business.business_stage?.name?.toLowerCase().includes(this.search?.toLowerCase()))
+    filteredBusinesses() {
+      return this.businesses.filter(business => {
+        // Check for name, city, country, or business stage matching the search term
+        const searchTerm = this.search ? this.search.toLowerCase() : '';
+        const matchesSearchTerm = business.name.toLowerCase().includes(searchTerm) ||
+          business.city.toLowerCase().includes(searchTerm) ||
+          business.country.toLowerCase().includes(searchTerm) ||
+          business.business_stage.name.toLowerCase().includes(searchTerm);
+
+        // Filter by location
+        const matchesLocation = !this.location || business.country.toLowerCase().includes(this.location.toLowerCase());
+
+        // Filter by stage
+        const matchesStage = !this.stage || business.business_stage.name.toLowerCase() === this.stage.toLowerCase();
+
+        // Filter by plan (considering zero subscriptions as 'free')
+        let selectedPlanCount = null;
+        if (this.plan === 'free') {
+          selectedPlanCount = 0; // Freemium (no billing subscriptions)
+        } else if (this.plan === 'pro') {
+          selectedPlanCount = 1; // Pro subscription count
+        } else if (this.plan === 'premium') {
+          selectedPlanCount = 2; // Premium subscription count
+        }
+        const matchesPlan = selectedPlanCount === null || business.billing_subscriptions.length === selectedPlanCount;
+
+        // Filter by size
+        const matchesSize = !this.size || business.size.toLowerCase() === this.size.toLowerCase();
+
+        // Filter by date
+        const matchesDate = !this.dateRange || (
+          business.createdAt >= this.dateRange[0] && business.createdAt <= this.dateRange[1]
+        );
+
+        return matchesSearchTerm && matchesLocation && matchesStage && matchesPlan  && matchesSize && matchesDate;
+      });
     },
     filtereBusinessByLocation(){
       if(!this.location){
@@ -419,6 +473,17 @@ export default {
           });
         })
     },
+
+    getBusinessStage(){
+      this.$apollo.query({query : businessStage})
+        .then(({ data }) => {
+          //console.log(data.company.map((item)=> item));
+          // this.businesses = data.company
+          // $("#datatable").DataTable({
+          //   responsive: true
+          // });
+        })
+    },
     changeContinent(){
       if(this.selectedContinent){
         this.continents.forEach(continent => {
@@ -436,7 +501,6 @@ export default {
     },
     filterCountryHandler(){
       if(this.location){
-        console.log(this.location, 'location');
         this.filterHandlerByPlan().filter(business => business.country === this.location);
       }
       return this.filtereBusinessByLocation
@@ -446,6 +510,52 @@ export default {
     },
      close() {
       this.isOpen = false;
+    },
+    resetFilters() {
+      this.location = null;
+      this.stage = null;
+      this.plan = null;
+      this.size = null;
+      this.search = null;
+      this.dateRange = null;
+    },
+    exportBusinesses(){
+      const data = this.filteredBusinesses.map(business => {
+
+        let plan;
+
+        if (business.billing_subscriptions.length === 0) {
+          plan = 'free';
+        } else if (business.billing_subscriptions.length === 1) {
+          plan = 'pro';
+        } else if (business.billing_subscriptions.length === 2) {
+          plan = 'premium';
+        }
+
+        return {
+          name: business.name,
+          stage: business.business_stage?.name,
+          city: business.city,
+          country: business.country,
+          objective: business.business_objective?.description,
+          investmentReady: `${business.investmentEtaValue} ${business.investmentEtaMetric}`,
+          plan: plan,
+          size: business.size,
+          Date: business.createdAt,
+        }
+      });
+
+      const fileName = 'businesses';
+      const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const fileExtension = '.csv';
+      const exportToCSV = (csvData, fileName) => {
+        const ws = XLSX.utils.json_to_sheet(csvData);
+        const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'csv', type: 'array' });
+        const data1 = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data1, fileName);
+      };
+      exportToCSV(data, fileName);
     }
   },
   watch: {

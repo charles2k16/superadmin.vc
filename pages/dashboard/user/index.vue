@@ -14,7 +14,7 @@
       </c-stat>
     </c-stat-group>
 
-    <div class="filters">
+    <div class="filtersUser">
       <c-input-group mr="5">
         <c-input-left-element
           ><i class="fa fa-search"></i
@@ -27,60 +27,26 @@
         />
       </c-input-group>
 
-      <date-picker v-model="dateRange" range class="search"></date-picker>
+      <date-picker
+        v-model="dateRange"
+        range class="search"
+        placeholder='Select date range'
+      ></date-picker>
       <download-csv
         v-show="false"
         ref="downloadCSV1"
         :data="usersToDownload"
         :name="`VC-USERS-${new Date()}.csv`"
       />
-    </div>
-
-    <div class="filters">
-      <c-select
-        class="search"
-        mr="5"
-        v-model="selectedContinent"
-        placeholder="Filter by continent"
-        @change="changeContinent()"
-      >
-        <option :value="ct.name" v-for="ct in continents" :key="ct.id">
-          {{ ct.name }}
-        </option>
-      </c-select>
-      <c-select
-        class="search"
-        mr="5"
-        v-model="location"
-        placeholder="Filter by country"
-        v-show="selectedContinent"
-        @change="filterCountryHandler()"
-      >
-        <option :value="country" v-for="country in countries" :key="country.id">
-          {{ country }}
-        </option>
-      </c-select>
-
-      <c-select
-        class="search"
-        mr="5"
-        v-model="plan"
-        @change="filterHandlerByPlan()"
-        placeholder="Filter by subscription"
-      >
-        <option value="freemium">Freemium</option>
-        <option value="pro">Pro</option>
-        <option value="premium">Premium</option>
-      </c-select>
       <c-button
-        @click="$refs.downloadCSV1.$el.click()"
+        class='btnExport'
+        @click="exportUsers"
         variant-color="blue"
         size="sm"
       >
         Export
       </c-button>
     </div>
-
     <div class="tableWrapper">
       <table id="datatable" class="table">
         <thead>
@@ -170,7 +136,8 @@ import "jquery/dist/jquery.min.js";
 import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
-
+import * as XLSX from 'xlsx';
+import FileSaver from 'file-saver';
 export default {
   name: 'App',
   components: {
@@ -369,10 +336,18 @@ export default {
   },
   computed: {
     filteredUsers(){
-      if(!this.search){
-        return this.users;
-      }
-      return this.users.filter(user => user.firstname?.toLowerCase().includes(this.search?.toLowerCase()) || user.lastname?.toLowerCase().includes(this.search?.toLowerCase()) || user.email?.toLowerCase().includes(this.search?.toLowerCase()))
+      return this.users.filter(users => {
+        const searchTerm = this.search ? this.search.toLowerCase() : '';
+        const matchesSearchTerm = users.firstname?.toLowerCase().includes(searchTerm) ||
+          users.lastname?.toLowerCase().includes(searchTerm) ||
+          users.email?.toLowerCase().includes(searchTerm) ||
+          users.teams?.some(team => team.company.name?.toLowerCase().includes(searchTerm))
+
+
+        const  dateMatched = !this.dateRange || (users.createdAt >= this.dateRange[0] && users.createdAt <= this.dateRange[1]);
+
+        return matchesSearchTerm && dateMatched;
+      })
     },
     filtereBusinessByLocation(){
       if(!this.location){
@@ -454,6 +429,31 @@ export default {
     },
      close() {
       this.isOpen = false;
+    },
+    exportUsers(){
+      const data = this.filteredUsers.map(user => {
+        return {
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          teams: user.teams.map(team => team.name).join(', '),
+          createdAt: user.createdAt,
+          isBlocked: user.isBlocked,
+          isDeleted: user.isDeleted,
+        }
+      });
+
+      const fileName = 'users';
+      const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const fileExtension = '.csv';
+      const exportToCSV = (csvData, fileName) => {
+        const ws = XLSX.utils.json_to_sheet(csvData);
+        const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'csv', type: 'array' });
+        const data1 = new Blob([excelBuffer], { type: fileType });
+        FileSaver.saveAs(data1, fileName);
+      };
+      exportToCSV(data, fileName);
     }
   },
   watch: {
@@ -471,9 +471,11 @@ export default {
 }
 </script>
 <style>
-.filters {
+.btnExport{
+  margin-left: 20px;
+}
+.filtersUser {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   flex-wrap: nowrap;
