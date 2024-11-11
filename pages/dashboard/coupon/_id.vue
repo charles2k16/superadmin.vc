@@ -29,6 +29,16 @@
                 placeholder="Commission"
               /> </c-form-control
           ></c-box>
+
+          <c-box>
+            <c-form-control>
+              <c-form-label for="commission">Custom Name</c-form-label>
+              <c-input
+                id="commission"
+                v-model="customAlias"
+                placeholder="Custom Identifier"
+              /> </c-form-control
+          ></c-box>
         </c-grid>
         <c-box> </c-box>
       </c-box>
@@ -48,11 +58,11 @@ export default {
   name: 'App',
   components: {},
   layout: 'dashboard',
-  async asyncData({app, params}){
+  async asyncData ({ app, params }) {
     const apolloClient = app.apolloProvider.defaultClient
     return {
-      businessId : params.id,
-      business : (await apolloClient.query({query : businessQuery, variables : {id : params.id}})).data.company_by_pk
+      businessId: params.id,
+      business: (await apolloClient.query({ query: businessQuery, variables: { id: params.id } })).data.company_by_pk
     }
   },
 
@@ -62,6 +72,7 @@ export default {
       counts : {},
       business : {},
       coupon : {},
+      customAlias: '',
       businessId : null,
       discount:null,
       commission:null,
@@ -70,10 +81,12 @@ export default {
   methods: {
     async fetchSomething() {
         try {
-            const coupon = await this.$axios.$post('https://server.vibrantcreator.com/v1/api/admin/coupon/create',{
-        commission:this.commission,
-        discount:this.discount,
-        companyId: this.businessId
+            const coupon = await this.$axios.$post('https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/coupon/create',{
+            commission:this.commission,
+            discount:this.discount,
+            companyId: [this.businessId],
+            customAlias: this.customAlias
+
     })
 
         this.coupon = coupon.data
@@ -81,14 +94,14 @@ export default {
         this.commission = null
         this.discount = null
 
-        await this.$axios.$post(`https://server.vibrantcreator.com/v1/api/admin/${coupon.data}/coupon/send`)
+        // await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${coupon.data}/coupon/send`)
 
-    } catch (error) {
-        let e= {error}
-        console.log(e,"hi")
+      } catch (error) {
+        let e = { error }
+        console.log(e, "hi")
+      }
+
     }
-
-  }
   },
   computed: {
 

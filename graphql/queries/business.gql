@@ -1,6 +1,6 @@
 query business($id: Int!) {
   company_by_pk(id: $id) {
-   
+
     business_stage {
         name
     }
@@ -29,7 +29,7 @@ query business($id: Int!) {
         id
       }
     }
-    
+
     posts_aggregate {
       aggregate {
         count
@@ -41,10 +41,10 @@ query business($id: Int!) {
         count
       }
     }
-    
+
     posts {
       content
-      createdAt
+      created_at
        company {
           name
           coverImage

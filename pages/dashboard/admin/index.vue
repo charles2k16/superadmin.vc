@@ -7,11 +7,14 @@
       </c-button>
     </c-heading>
 
-    <div>
+    <div v-if='fetching'>
+      <c-spinner color='gray' size="xl" />
+    </div>
+    <div v-else>
       <c-stack :spacing="5">
         <c-box :p="5" border-width="1px">
           <template v-for="admin in admins">
-            <nuxt-link :to="'./admin/' + admin.id" :key="admin.id">
+            <nuxt-link :to="'./admin/' + admin.id">
               <c-grid template-columns="100px repeat(3, 1fr)">
                 <c-box>
                   <c-avatar
@@ -102,11 +105,12 @@
 import adminQuery from "~/graphql/queries/admins.gql";
 
 export default {
-  name: 'App',
+  name: 'Admin',
   components: {},
   layout: 'dashboard',
   data () {
     return {
+      fetching: false,
       counts : {},
       admins : [],
       add : {
@@ -125,12 +129,16 @@ export default {
   },
   methods: {
      getAdmins(){
+      this.fetching = true;
       this.$apollo.query({query : adminQuery, })
         .then(({ data }) => {
           // do what you want with data
           console.log(data);
           this.admins = data.admin
-        })
+        }).catch((e) => {
+        console.log(e);
+      })
+      this.fetching = false;
     },
     openAddAmin(){
       this.isOpenModal = true

@@ -1,0 +1,19 @@
+query GetAppliedCoupon {
+  coupon_company {
+    commissionAmount
+    commissionPaymentStatus
+    companyByProviderid {
+      name
+    }
+    company {
+      name
+    }
+    id
+    coupon {
+      code
+      discount
+      commission
+    }
+    dateUsed
+  }
+}

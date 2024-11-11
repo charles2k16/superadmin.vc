@@ -38,60 +38,60 @@
         :data="usersToDownload"
         :name="`VC-USERS-${new Date()}.csv`"
       />
-      <c-button
-        class='btnExport'
-        @click="exportUsers"
-        variant-color="blue"
-        size="sm"
-      >
-        Export
-      </c-button>
-    </div>
-    <div class="tableWrapper">
-      <table id="datatable" class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Companies</th>
-            <th>Registeration Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(user, index) in filteredUsers" :key="index">
-            <td>
-              <c-avatar
-                :name="
-                  user.firstname ? `${user.firstname} ${user.lastname}` : null
-                "
-              />
-            </td>
-            <td>
-              {{
-                user.firstname
-                  ? `${user.firstname} ${user.lastname}`
-                  : `No name`
-              }}
-              <c-badge mx="2" v-if="user.isBlocked" variant-color="yellow"
-                >blocked</c-badge
-              >
-              <c-badge mx="2" v-if="user.isDeleted" variant-color="red"
-                >deleted</c-badge
-              >
-            </td>
-            <td>{{ user.email }}</td>
-            <td>
-              {{ user.teams.length ? '' : 'Pending Invites' }}
-              <ul>
-                <li v-for="(team, index) in user.teams" :key="index">
-                  {{ team.company.name }}
-                </li>
-              </ul>
-            </td>
-            <td>{{ $moment(user.createdAt).calendar() }}</td>
-            <td>
+    </c-box>
+    <div>
+      <c-stack :spacing="5">
+        <c-box :p="5" border-width="1px">
+          <template v-for="(user, index) in filteredUsers">
+            <c-grid template-columns="100px repeat(4, 1fr) 100px">
+              <c-box>
+                <c-avatar
+                  :name="
+                    user.firstname ? `${user.firstname} ${user.lastname}` : null
+                  "
+                />
+              </c-box>
+              <c-box>
+                <c-text fontSize="11px" color="gray.500"> Name </c-text>
+                <c-text fontSize="13px">
+                  {{
+                    user.firstname
+                      ? `${user.firstname} ${user.lastname}`
+                      : `No name`
+                  }}
+                  <c-badge mx="2" v-if="user.isBlocked" variant-color="yellow"
+                    >blocked</c-badge
+                  >
+                  <c-badge mx="2" v-if="user.isDeleted" variant-color="red"
+                    >deleted</c-badge
+                  >
+                </c-text>
+              </c-box>
+              <c-box>
+                <c-text fontSize="11px" color="gray.500"> Email </c-text>
+                <c-text fontSize="13px">
+                  {{ user.email }}
+                </c-text>
+              </c-box>
+              <c-box>
+                <c-text fontSize="11px" color="gray.500"> Companies </c-text>
+                <c-text fontSize="13px">
+                  {{ user.teams.length ? '' : 'Pending Invites' }}
+                  <ul>
+                    <li v-for="(team, index) in user.teams" :key="index">
+                      {{ team.company.name }}
+                    </li>
+                  </ul>
+                </c-text>
+              </c-box>
+              <c-box>
+                <c-text fontSize="11px" color="gray.500">
+                  Registeration Date
+                </c-text>
+                <c-text fontSize="13px">
+                  {{ $moment(user.createdAt).calendar() }}
+                </c-text>
+              </c-box>
               <c-menu>
                 <c-menu-button
                   :aria-controls="index"
