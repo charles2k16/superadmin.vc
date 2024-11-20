@@ -204,7 +204,7 @@ export default {
 
     async sendToMail(code) {
       try {
-        await this.$axios.$post(`https://vibrantcreator-backend-dev.herokuapp.com/v1/api/admin/${code}/coupon/send`)
+        await this.$axios.$post(`/admin/${code}/coupon/send`)
         alert("Coupon successfully sent to Company Mail")
 
         // this.$toast({

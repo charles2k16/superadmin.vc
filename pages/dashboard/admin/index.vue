@@ -7,8 +7,8 @@
       </c-button>
     </c-heading>
 
-    <div v-if='fetching'>
-      <c-spinner color='gray' size="xl" />
+    <div v-if="fetching">
+      <c-spinner color="gray" size="xl" />
     </div>
     <div v-else>
       <c-stack :spacing="5">
@@ -155,7 +155,7 @@ export default {
     async addAdmin(){
       this.addingAdmin = true;
       try {
-        await this.$axios.post('/admin', this.add);
+        await this.$axios.$post('/admin', this.add);
         this.closeModal();
       } catch (e) {
         this.closeModal();
