@@ -1,15 +1,19 @@
 <template>
   <div class="container">
     <c-heading marginBottom="20px">
-      <c-avatar :name="user.firstname ? `${user.firstname} ${user.lastname}` : null" />
-      {{user.firstname}} 
-      {{user.lastname}} 
+      <c-avatar
+        :name="user.firstname ? `${user.firstname} ${user.lastname}` : null"
+      />
+      {{ user.firstname }}
+      {{ user.lastname }}
     </c-heading>
     <c-stat-group marginBottom="20px">
       <c-stat>
         <c-stat-label>Saves</c-stat-label>
         <c-stat-number>{{
-          user.post_saves_aggregate ? user.post_saves_aggregate.aggregate.count : 0
+          user.post_saves_aggregate
+            ? user.post_saves_aggregate.aggregate.count
+            : 0
         }}</c-stat-number>
         <c-stat-helper-text>
           <c-stat-arrow type="increase" />
@@ -29,7 +33,9 @@
       <c-stat>
         <c-stat-label>Comments</c-stat-label>
         <c-stat-number>{{
-          user.post_comments_aggregate ? user.post_comments_aggregate.aggregate.count : 0
+          user.post_comments_aggregate
+            ? user.post_comments_aggregate.aggregate.count
+            : 0
         }}</c-stat-number>
         <c-stat-helper-text>
           <c-stat-arrow type="increase" />
@@ -43,18 +49,18 @@
           <c-box>
             <c-text fontSize="11px" color="gray.500"> Email </c-text>
             <c-text fontSize="13px">
-              {{user.email}}
+              {{ user.email }}
             </c-text>
           </c-box>
           <c-box>
             <c-text fontSize="11px" color="gray.500"> Companies </c-text>
             <c-text fontSize="13px">
-                <!-- {{user.teams.length ? '' : 'Pending Invites'}} -->
-                        <ul>
-                          <li v-for="team in user.teams" :key="team.id">
-                            {{team.company.name}}
-                          </li>
-                        </ul>
+              <!-- {{user.teams.length ? '' : 'Pending Invites'}} -->
+              <ul>
+                <li v-for="team in user.teams" :key="team.id">
+                  {{ team.company.name }}
+                </li>
+              </ul>
             </c-text>
           </c-box>
           <c-box>
@@ -62,7 +68,7 @@
               Registeration Date
             </c-text>
             <c-text fontSize="13px">
-              {{$moment(user.createdAt).calendar()}}
+              {{ $moment(user.createdAt).calendar() }}
             </c-text>
           </c-box>
         </c-grid>
@@ -73,53 +79,76 @@
           <br />
           <c-box :if="user.post_saves.length">
             <c-stack v-for="(save, index) in user.post_saves" :key="index">
-                    <c-flex>
-                    <c-avatar size="xs" v-bind:name="save.post ? `${save.post.user.firstname} ${save.post.user.lastname}` : null" />
-                    <c-text>
-                      {{save.post.user.firstname}} 
-                      {{save.post.user.lastname}}   
-                    </c-text>     
-                    </c-flex>
-                    <c-text fontSize="12px" p="0 2px" v-html="save.post.content">
-                    </c-text>   
-                    <c-divider></c-divider>
-            </c-stack>  
+              <c-flex>
+                <c-avatar
+                  size="xs"
+                  v-bind:name="
+                    save.post
+                      ? `${save.post.user.firstname} ${save.post.user.lastname}`
+                      : null
+                  "
+                />
+                <c-text>
+                  {{ save.post.user.firstname }}
+                  {{ save.post.user.lastname }}
+                </c-text>
+              </c-flex>
+              <c-text fontSize="12px" p="0 2px" v-html="save.post.content">
+              </c-text>
+              <c-divider></c-divider>
+            </c-stack>
           </c-box>
         </c-box>
         <c-box :p="5" border-width="1px">
           <h4>Posts</h4>
-            <br />
-            <c-box :if="user.posts.length">
+          <br />
+          <c-box :if="user.posts.length">
             <c-stack v-for="(post, index) in user.posts" :key="index">
-                    <c-flex>
-                    <c-avatar size="xs" v-bind:name="post.user ? `${post.user.firstname} ${post.user.lastname}` : null" />
-                    <c-text>
-                      {{post.user.firstname}} 
-                      {{post.user.lastname}}   
-                    </c-text>     
-                    </c-flex>
-                    <c-text fontSize="12px" p="0 2px" v-html="post.content">
-                    </c-text>   
-                    <c-divider></c-divider>
-            </c-stack>  
+              <c-flex>
+                <c-avatar
+                  size="xs"
+                  v-bind:name="
+                    post.user
+                      ? `${post.user.firstname} ${post.user.lastname}`
+                      : null
+                  "
+                />
+                <c-text>
+                  {{ post.user.firstname }}
+                  {{ post.user.lastname }}
+                </c-text>
+              </c-flex>
+              <c-text fontSize="12px" p="0 2px" v-html="post.content"> </c-text>
+              <c-divider></c-divider>
+            </c-stack>
           </c-box>
         </c-box>
         <c-box :p="5" border-width="1px">
           <h4>Comments</h4>
-            <br />
-            <c-box :if="user.posts.length">
-            <c-stack v-for="(comment, index) in user.post_comments" :key="index">
-                    <c-flex>
-                    <c-avatar size="xs" v-bind:name="comment.user ? `${comment.user.firstname} ${comment.user.lastname}` : null" />
-                    <c-text>
-                      {{comment.user.firstname}} 
-                      {{comment.user.lastname}}   
-                    </c-text>     
-                    </c-flex>
-                    <c-text fontSize="12px" p="0 2px" v-html="comment.content">
-                    </c-text>   
-                    <c-divider></c-divider>
-            </c-stack>  
+          <br />
+          <c-box :if="user.posts.length">
+            <c-stack
+              v-for="(comment, index) in user.post_comments"
+              :key="index"
+            >
+              <c-flex>
+                <c-avatar
+                  size="xs"
+                  v-bind:name="
+                    comment.user
+                      ? `${comment.user.firstname} ${comment.user.lastname}`
+                      : null
+                  "
+                />
+                <c-text>
+                  {{ comment.user.firstname }}
+                  {{ comment.user.lastname }}
+                </c-text>
+              </c-flex>
+              <c-text fontSize="12px" p="0 2px" v-html="comment.content">
+              </c-text>
+              <c-divider></c-divider>
+            </c-stack>
           </c-box>
         </c-box>
       </c-grid>
@@ -155,8 +184,7 @@ export default {
     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
-          // do what you want with data
-          console.log(data);
+
           this.counts = data
         })
     }
