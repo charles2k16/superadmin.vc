@@ -86,6 +86,7 @@ export default {
     }
   },
   methods: {
+    //activate modal
     setModalVisible(modalVisible) {
       this.modalVisible = modalVisible;
     },
