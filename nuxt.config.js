@@ -117,9 +117,8 @@ export default {
 
   axios: {
     baseURL:
-      process.env.NUXT_ENV_SERVER_URL ||
+      process.env.VUE_APP_SERVER_URL ||
       'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
-    // 'https://server.vibrantcreator.com/v1/api',
   },
 
   auth: {
