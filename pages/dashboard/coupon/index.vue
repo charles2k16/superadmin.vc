@@ -222,7 +222,6 @@ export default {
     getCoupons () {
       this.$apollo.query({ query: couponQuery })
         .then(({ data }) => {
-console.log(data);
           this.coupons = data.coupon
         })
     },
