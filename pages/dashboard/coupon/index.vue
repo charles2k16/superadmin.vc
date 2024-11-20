@@ -220,7 +220,7 @@ export default {
     getCounts(){
       this.$apollo.query({query : countQuery})
         .then(({ data }) => {
-        //   console.log(data);
+
           this.counts = data
         })
     },
