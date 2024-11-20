@@ -47,7 +47,7 @@ export default {
   plugins: [
     '~/plugins/ant-design-vue.js',
     { src: '~plugins/nuxt-quill-plugin', ssr: false },
-    { src: '~plugins/vue-json-csv', ssr: false },
+    { src: '~plugins/vue-json-csv', ssr: false }
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -107,9 +107,9 @@ export default {
         modifyVars: {
           // Override Ant Design colors here
           'primary-color': '#1DA57A', // Custom primary color
-          'link-color': '#1DA57A',    // Custom link color
+          'link-color': '#1DA57A', // Custom link color
           'text-color': 'red',
-          'border-radius-base': '2px', // Custom border radius
+          'border-radius-base': '2px' // Custom border radius
         }
       }
     }
@@ -118,7 +118,7 @@ export default {
   axios: {
     baseURL:
       process.env.NUXT_ENV_SERVER_URL ||
-      'https://vibrantcreator-backend-dev.herokuapp.com/v1/api',
+      'https://vibrantcreator-backend-dev.herokuapp.com/v1/api'
     // 'https://server.vibrantcreator.com/v1/api',
   },
 
@@ -140,13 +140,13 @@ export default {
       default: {
         httpLinkOptions: {
           headers: {
-            'x-hasura-admin-secret': secret,
+            'x-hasura-admin-secret': secret
           }
         },
         httpEndpoint:
-          process.env.NUXT_ENV_GRAPHQL_HTTP ||
+          process.env.VUE_APP_GRAPHQL_HTTP ||
           'https://vibrantcreator-data-core-dev.herokuapp.com/v1/graphql',
-          // 'https://data.vibrantcreator.com/v1/graphql',
+        // 'https://data.vibrantcreator.com/v1/graphql',
         query: {
           fetchPolicy: 'no-cache'
         }
